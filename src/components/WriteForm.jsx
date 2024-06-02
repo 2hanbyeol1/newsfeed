@@ -2,6 +2,7 @@ import { useRef } from "react";
 import styled from "styled-components";
 import { FaImage } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const FormWrap = styled.form`
   width: 100%;
@@ -156,6 +157,10 @@ const SubmitBtn = styled.div`
     svg {
       margin-right: 10px;
     }
+    a {
+      text-decoration: none;
+      color: #212529;
+    }
   }
 
   button.done {
@@ -226,7 +231,7 @@ const WriteForm = () => {
         <div>
           <button className="back">
             <FaArrowLeft />
-            나가기
+            <Link to="/">나가기</Link>
           </button>
           <button className="done" type="submit">
             출간하기
