@@ -8,17 +8,21 @@ import MyPage from "./pages/MyPage";
 import SignUp from "./pages/SignUp/SignUp";
 import Write from "./pages/Write";
 import Detail from "./pages/Detail";
-
 function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <UpButton />
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/mypage" element={<MyPage />} />
-      </Routes>
+      <Layout>
+        <UpButton />
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/write" element={<Write />} />
+          <Route path="/detail" element={<Detail />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   );
 }
