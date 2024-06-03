@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import logo from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <StHeader>
       <StContent>
-        <StLogo src={logo} alt="Logo" />
+        <StLogo src={logo} alt="Logo" onClick={() => navigate("/")} />
 
         <StNav>
           <ul>
@@ -28,6 +30,7 @@ const StHeader = styled.header`
   width: 100%;
   height: 80px;
   background: white;
+  z-index: 1000;
 `;
 
 const StContent = styled.div`
@@ -42,6 +45,7 @@ const StContent = styled.div`
 
 const StLogo = styled.img`
   width: 110px;
+  cursor: pointer;
 `;
 
 const StNav = styled.nav`
