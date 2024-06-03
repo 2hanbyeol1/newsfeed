@@ -116,7 +116,7 @@ const ButtonIcon = styled.span`
 
 const Content = styled.div`
   width: 100%;
-  min-height: 500px;
+  min-height: 300px;
   overflow: auto;
 
   textarea {
