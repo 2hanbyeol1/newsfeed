@@ -9,7 +9,7 @@ const Detail = () => {
   return (
     <div>
       <Header />
-      <DetailWrap>Detail페이지 입니다.</DetailWrap>
+      <DetailWrap>Detail페이지</DetailWrap>
     </div>
   );
 };
