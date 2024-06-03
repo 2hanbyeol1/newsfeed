@@ -4,7 +4,6 @@ import WriteForm from "../components/write/WriteForm";
 
 const WriteWrap = styled.div`
   margin-top: 20px;
-  position: relative;
 `;
 
 const Write = () => {

@@ -15,7 +15,6 @@ const FormWrap = styled.form`
     margin: 0;
     background: none;
     box-shadow: none;
-    font: inherit;
     outline: none;
     resize: none;
   }
@@ -116,11 +115,12 @@ const ButtonIcon = styled.span`
 
 const Content = styled.div`
   width: 100%;
-  min-height: 300px;
-  overflow: auto;
+  min-height: 400px;
 
   textarea {
     width: 100%;
+    min-height: 400px;
+    overflow: auto;
   }
 `;
 
