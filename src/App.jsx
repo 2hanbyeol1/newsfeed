@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./GlobalStyle";
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
-import UpButton from "./component/UpButton";
+import UpButton from "./components/UpButton";
 
 function App() {
   return (

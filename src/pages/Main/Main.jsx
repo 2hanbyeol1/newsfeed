@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import NewsFeed from "../../component/NewsFeed";
+import NewsFeed from "../../components/NewsFeed";
 import { Link } from "react-router-dom";
 
 function Main() {
