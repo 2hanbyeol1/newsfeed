@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Header from "../components/Header";
 import MyInfo from "../components/MyInfo";
 import MyPost from "../components/MyPost";
+import { Outlet } from "react-router-dom";
 
 const MyPage = () => {
   return (
@@ -11,6 +12,7 @@ const MyPage = () => {
         <MyInfo />
         <MyPost />
       </main>
+      <Outlet />
     </StContainer>
   );
 };

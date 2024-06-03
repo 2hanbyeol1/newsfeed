@@ -22,15 +22,15 @@ const dummyPosts = [
   },
   {
     id: 4,
-    title: "IT 산업에 있어서 앞으로의 난관",
-    description: "대충 주가 떨어지는 소리는...",
+    title: "AI 산업에 있어서 앞으로의 난관",
+    description: "대충 주가 떨어지는 소리가...",
     imageUrl:
       "https://img.freepik.com/free-vector/businessman-feeling-down-about-economic-crisis-caused-by-coronavirus-vector_53876-169103.jpg?w=1380&t=st=1717247942~exp=1717248542~hmac=309975c34ed043cd68461d30260b849cff10713b91cf1d3884b12c61a5aae68f"
   },
   {
     id: 5,
     title: "리액트에서 useEffect에 대한 고찰",
-    description: "컴포넌트의 여러 값들을 활용해 동기적으로 부수 효과...",
+    description: "컴포넌트의 여러 값들을 활용해 ...",
     imageUrl: "https://velog.velcdn.com/images/alsgud8311/post/b921f9e8-3153-4092-9fff-cc13691cd805/image.jpg"
   },
   {
@@ -43,6 +43,15 @@ const dummyPosts = [
 ];
 
 const MyPost = () => {
+  const handleEdit = (postId) => {
+    console.log(`Edit post with id: ${postId}`);
+    // 추가 로직 작성
+  };
+
+  const handleDelete = (postId) => {
+    console.log(`Delete post with id: ${postId}`);
+    // 추가 로직 작성
+  };
   return (
     <StPosts>
       <h3>내 게시글</h3>
@@ -52,6 +61,10 @@ const MyPost = () => {
             <img src={post.imageUrl} alt="Post" />
             <h4>{post.title}</h4>
             <p>{post.description}</p>
+            <StButtonGroup>
+              <button onClick={() => handleEdit(post.id)}>수정</button>
+              <button onClick={() => handleDelete(post.id)}>삭제</button>
+            </StButtonGroup>
           </StPost>
         ))}
       </StPostGrid>
@@ -91,12 +104,12 @@ const StPost = styled.div`
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
-  transition-duration: 0.3s;
+  transition-duration: 0.4s;
   cursor: pointer;
 
   &:hover {
     transform: translateY(-9px); /* 게시글 클릭 시 위로 이동하는 호버 효과 */
-    transition-duration: 0.3s;
+    transition-duration: 0.4s;
   }
 
   img {
@@ -111,5 +124,38 @@ const StPost = styled.div`
   p {
     font-size: 0.9em;
     color: #666;
+  }
+`;
+
+const StButtonGroup = styled.div`
+  margin-top: 10px;
+
+  button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+
+    &:first-child {
+      margin-right: 10px;
+      background-color: #b3b3b3;
+      color: white;
+
+      &:hover {
+        background-color: #8e8d8d;
+      }
+    }
+
+    &:last-child {
+      background-color: #f44336;
+      color: white;
+
+      &:hover {
+        background-color: #e43431;
+      }
+    }
   }
 `;
