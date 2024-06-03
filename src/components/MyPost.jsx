@@ -77,10 +77,7 @@ export default MyPost;
 const StPosts = styled.section`
   display: flex;
   flex-direction: column; /* 컬럼 방향으로 변경 */
-  padding: 20px;
   border-radius: 10px;
-  width: 80%;
-  max-width: 1100px;
   margin: 20px auto;
   background-color: #fff;
 

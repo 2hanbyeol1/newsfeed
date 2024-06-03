@@ -34,7 +34,7 @@ const StProfileContainer = styled.div`
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
-  max-width: 1100px;
+  margin-bottom: 80px;
 `;
 
 const StLeftSection = styled.div`
