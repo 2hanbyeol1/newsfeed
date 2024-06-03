@@ -3,6 +3,8 @@ import GlobalStyle from "./GlobalStyle";
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
 import UpButton from "./components/UpButton";
+import Detail from "./pages/Detail";
+import Write from "./pages/Write";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/write" element={<Write />} />
+        <Route path="/detail/:id" element={<Detail />} />
       </Routes>
     </BrowserRouter>
   );
