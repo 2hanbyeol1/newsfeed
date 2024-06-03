@@ -25,8 +25,6 @@ const FormWrap = styled.form`
 `;
 
 const FormWidthWrap = styled.div`
-  min-width: 320px;
-  max-width: 940px;
   margin: 0 auto;
   padding: 20px 0;
   box-sizing: border-box;
@@ -127,16 +125,24 @@ const Content = styled.div`
 const SubmitBtn = styled.div`
   width: 100%;
   position: fixed;
+  left: 0;
   bottom: 0;
   padding: 17px 0;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
 
   div {
-    min-width: 320px;
-    max-width: 940px;
     margin: 0 auto;
+    width: 1280px;
     display: flex;
     justify-content: space-between;
+
+    @media only screen and (max-width: 1068px) {
+      width: 710px;
+    }
+
+    @media only screen and (max-width: 734px) {
+      width: 300px;
+    }
   }
   button {
     font-size: 20px;
