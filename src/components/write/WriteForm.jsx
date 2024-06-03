@@ -153,13 +153,13 @@ const SubmitBtn = styled.div`
   button.back {
     display: flex;
     align-items: center;
-    color: #212529;
+    color: #000000;
     svg {
       margin-right: 10px;
     }
     a {
       text-decoration: none;
-      color: #212529;
+      color: #000000;
     }
   }
 
