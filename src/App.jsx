@@ -5,9 +5,9 @@ import UpButton from "./components/UpButton";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
-import SignUp from "./pages/SignUp/SignUp";
 import Write from "./pages/Write";
 import Detail from "./pages/Detail";
+import SignUp from "./pages/SignUp/SignUp";
 
 function App() {
   return (
