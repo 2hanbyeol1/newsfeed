@@ -1,8 +1,8 @@
-import { useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { FaImage } from "react-icons/fa";
-import { FaArrowLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaImage, FaArrowLeft } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import supabase from "../../supabase/supabase";
 
 const FormWrap = styled.form`
   width: 100%;
@@ -174,8 +174,8 @@ const SubmitBtn = styled.div`
     border-radius: 7px;
     background-color: #61bafe;
     color: #eef1f3;
-    background-color:
-      0.3s,
+    transition:
+      background-color 0.3s,
       color 0.3s;
   }
 
@@ -186,7 +186,24 @@ const SubmitBtn = styled.div`
 `;
 
 const WriteForm = () => {
+  let navigate = useNavigate();
   const fileInputRef = useRef(null);
+  // const userUniqueId = "d2ae74c5-3d4c-4df3-befa-334170bc93942";
+  const userUniqueId = null;
+  // useselector를 이용해서 한별님이 만들어 놓은 리덕스 값을 가져와야함
+
+  useEffect(() => {
+    if (!userUniqueId) {
+      console.log("hi");
+      confirm("로그인 하고 작성해주세요.");
+      navigate("/");
+    }
+  }, []);
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [tag, setTag] = useState("");
+  const [createdAt] = useState(new Date());
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -195,16 +212,54 @@ const WriteForm = () => {
   const handleFileChange = (event) => {
     console.log("File selected:", event.target.files[0]);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { data, error } = await supabase.from("posts").insert([
+      {
+        title,
+        description,
+        created_by: userUniqueId,
+        created_at: createdAt,
+        tag
+      }
+    ]);
+
+    if (error) {
+      console.error("Error adding post:", error.message, error.details, error.hint);
+    } else {
+      alert("포스트가 정상적으로 추가되었습니다.");
+      console.log("Added post data:", data);
+    }
+  };
+
   return (
     <>
-      <FormWrap>
+      <FormWrap onSubmit={handleSubmit}>
         <FormWidthWrap>
           <Title>
-            <input type="text" id="title" name="title" placeholder="제목을 입력하세요." aria-label="제목 입력" />
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="제목을 입력하세요."
+              aria-label="제목 입력"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
             <div></div>
           </Title>
           <TagInput>
-            <input type="text" id="tags" name="tags" placeholder="태그를 입력하세요." aria-label="태그 입력" />
+            <input
+              type="text"
+              id="tags"
+              name="tags"
+              placeholder="태그를 입력하세요."
+              aria-label="태그 입력"
+              value={tag}
+              onChange={(e) => setTag(e.target.value)}
+            />
           </TagInput>
           <SelectBtn>
             <button type="button" aria-label="H1태그로 입력">
@@ -225,25 +280,27 @@ const WriteForm = () => {
           </SelectBtn>
           <Content>
             <textarea
-              id="content"
-              name="content"
+              id="description"
+              name="description"
               placeholder="나의 개발 이야기를 적어보세요..."
               aria-label="내용 작성"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             ></textarea>
           </Content>
         </FormWidthWrap>
+        <SubmitBtn>
+          <div>
+            <button className="back">
+              <FaArrowLeft />
+              <Link to="/">나가기</Link>
+            </button>
+            <button className="done" type="submit">
+              출간하기
+            </button>
+          </div>
+        </SubmitBtn>
       </FormWrap>
-      <SubmitBtn>
-        <div>
-          <button className="back">
-            <FaArrowLeft />
-            <Link to="/">나가기</Link>
-          </button>
-          <button className="done" type="submit">
-            출간하기
-          </button>
-        </div>
-      </SubmitBtn>
     </>
   );
 };
