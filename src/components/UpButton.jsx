@@ -5,25 +5,21 @@ const ScrollButton = styled.button`
   position: fixed;
   bottom: 40px;
   right: 40px;
-  padding: 10px 20px;
-  font-size: 18px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
+  background: none;
   cursor: pointer;
-  display: ${({ isVisible }) => (isVisible ? "block" : "none")};
-
-  &:hover {
-    background-color: #0056b3;
-  }
+  border: none;
+  opacity: ${(props) => (props.$isVisible ? 1 : 0)};
+  visibility: ${(props) => (props.$isVisible ? "visible" : "hidden")};
+  transition:
+    opacity 0.5s,
+    visibility 0.5s;
 `;
 
 const UpButton = () => {
   const [isVisible, setIsVisible] = useState(false);
 
-  const toggleVisibillity = () => {
-    if (window.scrollY > 700) {
+  const toggleVisibility = () => {
+    if (window.scrollY > 500) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
@@ -38,16 +34,16 @@ const UpButton = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", toggleVisibillity);
+    window.addEventListener("scroll", toggleVisibility);
     return () => {
-      window.removeEventListener("scroll", toggleVisibillity);
+      window.removeEventListener("scroll", toggleVisibility);
     };
   }, []);
 
   return (
     <>
-      <ScrollButton onClick={scrollToTop} isVisible={isVisible}>
-        ⬆️ 위로
+      <ScrollButton onClick={scrollToTop} $isVisible={isVisible}>
+        <img className="button-img" src="/src/assets/upbutton.png" alt="Scroll to top"></img>
       </ScrollButton>
     </>
   );

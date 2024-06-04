@@ -8,7 +8,6 @@ const Header = () => {
     <StHeader>
       <StContent>
         <StLogo src={logo} alt="Logo" onClick={() => navigate("/")} />
-
         <StNav>
           <ul>
             <li>글쓰기</li>
