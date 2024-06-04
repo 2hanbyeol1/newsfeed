@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import supabase from "../supabase/supabase";
 
 const Item = styled.div`
   padding: 10px;
@@ -61,21 +63,26 @@ const Item = styled.div`
   }
 `;
 
-const NewsCard = () => {
+const NewsCard = ({ image_url, title, description, created_by }) => {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const fetchCountries = async () => {
+      let { data } = await supabase.from("Users").select("*").eq("id", created_by);
+      setUser(data[0]);
+      console.log(data[0]);
+    };
+    fetchCountries();
+  }, []);
   return (
     <Item>
       <div className="card-header">
-        <div className="profile"></div>
-        <div className="writer">gmltncpfl1</div>
+        <img className="profile" src={user?.profile_image} />
+        <div className="writer">{user?.nickname}</div>
       </div>
       <div className="card-content">
-        <img className="content-img" src="/public/images/images.jpg" alt="이미지"></img>
-        <div className="title">프론트엔드 추천 자료 모음</div>
-        <div className="content">
-          사이트 MDN - 가장 유명한 MDN 모던 javascript 튜토리얼 - JS 튜토리얼로 정알 좋음. 타입스크립트 핸드북 - TS
-          공식문서 타임 븥 핸드북 캠턴퍼프러블 웹 핸드북 fontawesome 다양한 ICON을 가져올 수 있는 사이트 flatu 사이트
-          MDN
-        </div>
+        <img className="content-img" src={image_url} alt="이미지" />
+        <div className="title">{title}</div>
+        <div className="content">{description}</div>
       </div>
     </Item>
   );
