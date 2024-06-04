@@ -1,4 +1,7 @@
+import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import Header from "../components/Header";
+import UpButton from "../components/UpButton";
 
 const StyledLayout = styled.div`
   width: 100%;
@@ -7,10 +10,11 @@ const StyledLayout = styled.div`
   min-height: 100vh;
 `;
 
-const MainContent = styled.div`
+const MainContent = styled.main`
   margin: 0 auto;
   width: 1280px;
   flex: 1;
+  margin-top: 70px;
 
   @media only screen and (max-width: 1068px) {
     width: 710px;
@@ -21,12 +25,16 @@ const MainContent = styled.div`
   }
 `;
 
-const Layout = ({ children }) => {
+const HeaderLayout = () => {
   return (
     <StyledLayout>
-      <MainContent>{children}</MainContent>
+      <Header />
+      <MainContent>
+        <Outlet />
+      </MainContent>
+      <UpButton />
     </StyledLayout>
   );
 };
 
-export default Layout;
+export default HeaderLayout;
