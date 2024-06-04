@@ -50,7 +50,7 @@ function Login() {
         <ButtonGroup>
           {/* ! 올바른 주소 연결 필요 */}
           <StyledLink to={"/"}>로그인 정보를 잊으셨나요?</StyledLink>
-          <StyledLink to={"/"}>회원가입</StyledLink>
+          <StyledLink to={"/signup"}>회원가입</StyledLink>
         </ButtonGroup>
       </Wrapper>
     </CenteredView>
