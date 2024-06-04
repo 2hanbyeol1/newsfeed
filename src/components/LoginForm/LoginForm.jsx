@@ -1,7 +1,11 @@
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import useInputs from "../../hooks/useInputs";
+import { login } from "../../redux/slices/login.slice";
+import supabase from "../../supabase/supabase";
 
 const StyledForm = styled.form`
   display: flex;
@@ -11,17 +15,41 @@ const StyledForm = styled.form`
 `;
 
 function LoginForm() {
-  const [{ id, pw }, onChange] = useInputs({ id: "", pw: "" });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [{ email, pw }, onChange] = useInputs({ email: "", pw: "" });
 
-  const handleLoginFormSubmit = (e) => {
+  const handleLoginFormSubmit = async (e) => {
     e.preventDefault();
-    if (id === "") return alert("id를 입력해주세요");
+    if (email === "") return alert("email을 입력해주세요");
     if (pw === "") return alert("pw를 입력해주세요");
+
+    const {
+      data: { user },
+      error
+      // , error
+    } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: pw
+    });
+    if (user) {
+      dispatch(login(true));
+      navigate("/");
+    }
+    if (error) {
+      switch (error.message) {
+        case "Invalid login credentials":
+          alert("로그인 정보가 일치하지 않습니다.");
+          break;
+        default:
+          alert(error.message);
+      }
+    }
   };
 
   return (
     <StyledForm onSubmit={handleLoginFormSubmit}>
-      <Input placeholder="id" name="id" value={id} onChange={onChange} />
+      <Input placeholder="email" name="email" value={email} onChange={onChange} />
       <Input type="password" placeholder="pw" name="pw" value={pw} onChange={onChange} />
       <Button>Login</Button>
     </StyledForm>
