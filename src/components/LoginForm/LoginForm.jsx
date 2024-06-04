@@ -1,8 +1,10 @@
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import useInputs from "../../hooks/useInputs";
+import { login } from "../../redux/slices/login.slice";
 import supabase from "../../supabase/supabase";
 
 const StyledForm = styled.form`
@@ -14,6 +16,7 @@ const StyledForm = styled.form`
 
 function LoginForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [{ email, pw }, onChange] = useInputs({ email: "", pw: "" });
 
   const handleLoginFormSubmit = async (e) => {
@@ -29,6 +32,7 @@ function LoginForm() {
       password: pw
     });
     if (user) {
+      dispatch(login(true));
       navigate("/");
     } else {
       alert("로그인 오류!");
