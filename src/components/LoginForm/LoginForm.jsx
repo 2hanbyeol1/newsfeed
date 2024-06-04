@@ -21,7 +21,7 @@ function LoginForm() {
 
   const handleLoginFormSubmit = async (e) => {
     e.preventDefault();
-    if (email === "") return alert("id를 입력해주세요");
+    if (email === "") return alert("email을 입력해주세요");
     if (pw === "") return alert("pw를 입력해주세요");
 
     const {
