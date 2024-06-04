@@ -11,7 +11,8 @@ function SignUpForm() {
 
   const onSubmitHander = async (e) => {
     e.preventDefault();
-
+    if (nickname === "") return alert("이름을 입력해주세요.");
+    if (email === "") return alert("email을 입력해주세요.");
     if (pw !== confirm) return alert("비밀번호가 일치하지 않습니다.");
 
     const { data, error } = await supabase.auth.signUp({
