@@ -2,11 +2,11 @@ import styled from "styled-components";
 import NewsFeed from "../../components/NewsFeed";
 import { Link } from "react-router-dom";
 
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 function Main() {
-  const Container = styled.div`
-    display: flex;
-    justify-content: center;
-  `;
   return (
     <div>
       <Container>
