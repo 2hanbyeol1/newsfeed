@@ -3,14 +3,6 @@ import styled from "styled-components";
 import Logo from "../../assets/logo.png";
 import LoginForm from "../../components/LoginForm";
 
-const CenteredView = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-`;
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,19 +33,17 @@ const StyledLink = styled(Link)`
 
 function Login() {
   return (
-    <CenteredView>
-      <Wrapper>
-        <Link to={"/"}>
-          <img width="110" src={Logo} />
-        </Link>
-        <LoginForm />
-        <ButtonGroup>
-          {/* ! 올바른 주소 연결 필요 */}
-          <StyledLink to={"/"}>로그인 정보를 잊으셨나요?</StyledLink>
-          <StyledLink to={"/signup"}>회원가입</StyledLink>
-        </ButtonGroup>
-      </Wrapper>
-    </CenteredView>
+    <Wrapper>
+      <Link to={"/"}>
+        <img width="110" src={Logo} />
+      </Link>
+      <LoginForm />
+      <ButtonGroup>
+        {/* ! 올바른 주소 연결 필요 */}
+        <StyledLink to={"/"}>로그인 정보를 잊으셨나요?</StyledLink>
+        <StyledLink to={"/signup"}>회원가입</StyledLink>
+      </ButtonGroup>
+    </Wrapper>
   );
 }
 
