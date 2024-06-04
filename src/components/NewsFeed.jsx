@@ -16,7 +16,6 @@ const NewsFeed = () => {
     const fetchCountries = async () => {
       let { data } = await supabase.from("posts").select("*");
       setPosts(data);
-      console.log(data);
     };
     fetchCountries();
   }, []);

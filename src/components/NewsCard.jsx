@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import supabase from "../supabase/supabase";
+import default_Img from "../assets/noImg.png";
 
 const Item = styled.div`
   padding: 10px;
@@ -65,14 +66,19 @@ const Item = styled.div`
 
 const NewsCard = ({ image_url, title, description, created_by }) => {
   const [user, setUser] = useState(null);
+
   useEffect(() => {
     const fetchCountries = async () => {
       let { data } = await supabase.from("Users").select("*").eq("id", created_by);
       setUser(data[0]);
-      console.log(data[0]);
     };
     fetchCountries();
-  }, []);
+  }, [created_by]);
+
+  const onErrorImg = (e) => {
+    e.target.src = default_Img;
+  };
+
   return (
     <Item>
       <div className="card-header">
@@ -80,7 +86,7 @@ const NewsCard = ({ image_url, title, description, created_by }) => {
         <div className="writer">{user?.nickname}</div>
       </div>
       <div className="card-content">
-        <img className="content-img" src={image_url} alt="이미지" />
+        <img className="content-img" src={image_url || default_Img} onError={onErrorImg} alt="이미지" />
         <div className="title">{title}</div>
         <div className="content">{description}</div>
       </div>
