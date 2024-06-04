@@ -1,9 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Input from "../../components/Input";
-import Button from "../Button";
 import useInputs from "../../hooks/useInputs";
 import supabase from "../../supabase/supabase";
-import { useNavigate } from "react-router-dom";
+import Button from "../Button";
 
 function SignUpForm() {
   const navigate = useNavigate();
@@ -22,6 +22,7 @@ function SignUpForm() {
     if (error && error.message === "User already registered") return alert("중복된 이메일입니다.");
     if (error && error.message === "Password should be at least 6 characters.")
       return alert("비밀번호 최소 길이가 6자리 이상입니다.");
+    if (error) return alert(error.message);
 
     await supabase.from("Users").insert({
       id: data.user.id,

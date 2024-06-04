@@ -1,6 +1,9 @@
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/logo.png";
-import { useNavigate, Link } from "react-router-dom";
+import { logout } from "../redux/slices/login.slice";
+import supabase from "../supabase/supabase";
 
 const StHeader = styled.header`
   position: fixed;
@@ -61,17 +64,44 @@ const StNav = styled.nav`
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.login);
+
+  const handleLogoutClick = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) alert(error.message);
+    dispatch(logout());
+    alert("로그아웃 되었습니다.");
+  };
+
   return (
     <StHeader>
       <StContent>
         <StLogo src={logo} alt="Logo" onClick={() => navigate("/")} />
-
         <StNav>
           <ul>
-            <li>
-              <Link to="/write">글쓰기</Link>
-            </li>
-            <li>로그아웃</li>
+            {isLoggedIn ? (
+              <>
+                <li>
+                  <Link to="/mypage">마이페이지</Link>
+                </li>
+                <li>
+                  <Link to="/write">글쓰기</Link>
+                </li>
+                <li onClick={handleLogoutClick}>
+                  <Link>로그아웃</Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/login">로그인</Link>
+                </li>
+                <li>
+                  <Link to="/signup">회원가입</Link>
+                </li>
+              </>
+            )}
           </ul>
         </StNav>
       </StContent>
