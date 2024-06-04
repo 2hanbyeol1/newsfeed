@@ -1,6 +1,6 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import NewsFeed from "../../components/NewsFeed";
-import { Link } from "react-router-dom";
 
 function Main() {
   const Container = styled.div`

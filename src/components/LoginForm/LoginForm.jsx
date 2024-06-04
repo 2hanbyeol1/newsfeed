@@ -25,7 +25,8 @@ function LoginForm() {
     if (pw === "") return alert("pw를 입력해주세요");
 
     const {
-      data: { user }
+      data: { user },
+      error
       // , error
     } = await supabase.auth.signInWithPassword({
       email: email,
@@ -34,8 +35,15 @@ function LoginForm() {
     if (user) {
       dispatch(login(true));
       navigate("/");
-    } else {
-      alert("로그인 오류!");
+    }
+    if (error) {
+      switch (error.message) {
+        case "Invalid login credentials":
+          alert("로그인 정보가 일치하지 않습니다.");
+          break;
+        default:
+          alert(error.message);
+      }
     }
   };
 
