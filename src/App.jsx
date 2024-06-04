@@ -7,6 +7,7 @@ import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
 import SignUp from "./pages/SignUp/SignUp";
 import Write from "./pages/Write";
+import Detail from "./pages/Detail";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/write" element={<Write />} />
+          <Route path="/detail" element={<Detail />} />
         </Routes>
       </Layout>
     </BrowserRouter>
