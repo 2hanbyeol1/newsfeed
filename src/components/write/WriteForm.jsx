@@ -41,15 +41,26 @@ const Title = styled.div`
     height: fit-content;
     line-height: 1.5;
     font-weight: bold;
+
+    @media only screen and (max-width: 1068px) {
+      font-size: 32px;
+    }
+    @media only screen and (max-width: 734px) {
+      font-size: 28px;
+    }
   }
 
   div {
     background: rgb(73, 80, 87);
     height: 6px;
-    width: 3.5vw;
+    width: 3.8vw;
     margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 1px;
+
+    @media only screen and (max-width: 734px) {
+      width: 6vw;
+    }
   }
 `;
 
@@ -80,16 +91,22 @@ const SelectBtn = styled.div`
       background-color: #e0e0e0;
       color: #333;
     }
+
+    @media only screen and (max-width: 734px) {
+      width: 42px;
+      height: 42px;
+      font-size: 18px;
+    }
   }
 `;
 
 const Content = styled.div`
   width: 100%;
-  min-height: 400px;
+  min-height: 300px;
 
   textarea {
     width: 100%;
-    min-height: 400px;
+    min-height: 300px;
     overflow: auto;
   }
 `;
@@ -104,7 +121,7 @@ const SubmitBtn = styled.div`
 
   div {
     margin: 0 auto;
-    width: 1280px;
+    width: 1090px;
     display: flex;
     justify-content: space-between;
 
@@ -175,26 +192,28 @@ const WriteForm = () => {
 
   const handleTagButtonClick = (tag) => {
     const textarea = descriptionTextareaRef.current;
-
     const selectionStart = textarea.selectionStart;
     const selectionEnd = textarea.selectionEnd;
+    const beforeText = description.slice(0, selectionStart);
+    const selectedText = description.slice(selectionStart, selectionEnd);
+    const afterText = description.slice(selectionEnd);
 
     let newText;
     switch (tag) {
       case "H1":
-        newText = `# ${description.slice(selectionStart, selectionEnd)}`;
+        newText = `${beforeText}# ${selectedText} ${afterText}`;
         break;
       case "H2":
-        newText = `## ${description.slice(selectionStart, selectionEnd)}`;
+        newText = `${beforeText}${selectedText}\n## ${afterText}`;
         break;
       case "P":
-        newText = `${description.slice(selectionStart, selectionEnd)}\n`;
+        newText = `${beforeText}${selectedText}\n${afterText}`;
         break;
       default:
         newText = description;
     }
 
-    setDescription(description.slice(0, selectionStart) + newText + description.slice(selectionEnd));
+    setDescription(newText);
 
     textarea.focus();
   };
@@ -205,6 +224,7 @@ const WriteForm = () => {
     const {
       data: { user }
     } = await supabase.auth.getUser();
+
     const { data, error } = await supabase.from("posts").insert([
       {
         title,
@@ -216,10 +236,11 @@ const WriteForm = () => {
     ]);
 
     if (error) {
-      console.error("포스트 추가 중 오류 발생:", error.message, error.details, error.hint);
+      console.error("Error adding post:", error.message, error.details, error.hint);
     } else {
       alert("포스트가 정상적으로 추가되었습니다.");
-      console.log("추가된 포스트 데이터:", data);
+      console.log("Added post data:", data);
+      navigate("/");
     }
   };
 
@@ -275,7 +296,7 @@ const WriteForm = () => {
         </FormWidthWrap>
         <SubmitBtn>
           <div>
-            <button type="button" className="back">
+            <button className="back">
               <FaArrowLeft />
               <Link to="/">나가기</Link>
             </button>
