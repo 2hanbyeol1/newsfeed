@@ -5,7 +5,6 @@ import supabase from "../supabase/supabase";
 import { FaArrowLeft } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import ReactMarkdown from "react-markdown";
-
 const FormWrap = styled.form`
   width: 100%;
   input,
@@ -23,13 +22,11 @@ const FormWrap = styled.form`
     cursor: pointer;
   }
 `;
-
 const FormWidthWrap = styled.div`
   margin: 0 auto;
   padding: 20px 0;
   box-sizing: border-box;
 `;
-
 const Title = styled.div`
   width: 100%;
   input {
@@ -39,11 +36,9 @@ const Title = styled.div`
     height: fit-content;
     line-height: 1.5;
     font-weight: bold;
-
     @media only screen and (max-width: 1068px) {
       font-size: 32px;
     }
-
     @media only screen and (max-width: 734px) {
       font-size: 28px;
     }
@@ -57,7 +52,6 @@ const Title = styled.div`
     border-radius: 1px;
   }
 `;
-
 const TagInput = styled.div`
   margin: 20px 0 40px 0;
   input {
@@ -67,10 +61,9 @@ const TagInput = styled.div`
     box-sizing: border-box;
     font-size: ${(props) => (props.isEditMode ? "inherit" : "18px")};
     font-weight: ${(props) => (props.isEditMode ? "inherit" : "800")};
-    color: ${(props) => (props.isEditMode ? "inherit" : "#349ded")};
+    color: ${(props) => (props.isEditMode ? "inherit" : "#349DED")};
   }
 `;
-
 const Content = styled.div`
   width: 100%;
   min-height: 400px;
@@ -80,12 +73,10 @@ const Content = styled.div`
     overflow: auto;
   }
 `;
-
 const MarkdownPreview = styled.div`
   width: 100%;
   min-height: 400px;
   word-break: keep-all;
-
   h1,
   h2 {
     margin: 20px 0 10px;
@@ -94,48 +85,39 @@ const MarkdownPreview = styled.div`
   h1 {
     font-size: 36px;
     margin: 20px 0;
-
     @media only screen and (max-width: 1068px) {
       font-size: 28px;
     }
-
     @media only screen and (max-width: 734px) {
       font-size: 23px;
     }
   }
-
   h2 {
     font-size: 22px;
     margin: 15px 0;
-
     @media only screen and (max-width: 1068px) {
       font-size: 20px;
     }
-
     @media only screen and (max-width: 734px) {
       font-size: 18px;
     }
   }
-
   p {
     margin: 10px 0;
     font-size: 14px;
     line-height: 1.6;
   }
-
   ul,
   ol {
     padding-left: 20px;
     margin: 10px 0;
   }
-
   code {
     background-color: #f5f5f5;
     padding: 2px 4px;
     border-radius: 3px;
     font-family: monospace;
   }
-
   blockquote {
     border-left: 4px solid #ddd;
     padding-left: 10px;
@@ -143,7 +125,6 @@ const MarkdownPreview = styled.div`
     margin: 10px 0;
   }
 `;
-
 const SelectBtn = styled.div`
   display: flex;
   margin-bottom: 40px;
@@ -162,14 +143,12 @@ const SelectBtn = styled.div`
     transition:
       background-color 0.3s,
       color 0.3s;
-
     &:hover {
       background-color: #e0e0e0;
       color: #333;
     }
   }
 `;
-
 const SubmitBtn = styled.div`
   width: 100%;
   position: fixed;
@@ -183,7 +162,6 @@ const SubmitBtn = styled.div`
     width: 1280px;
     display: flex;
     justify-content: space-between;
-
     @media only screen and (max-width: 1068px) {
       width: 710px;
     }
@@ -256,7 +234,6 @@ const SubmitBtn = styled.div`
     color: #ffffff;
   }
 `;
-
 const Detail = () => {
   const postId = "f96c0eb0-bfc2-4ed2-9fff-bbe8e8333a15"; // 테스트용 게시물 ID
   const navigate = useNavigate();
@@ -265,7 +242,6 @@ const Detail = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [markdownText, setMarkdownText] = useState("");
   const descriptionTextareaRef = useRef(null);
-
   useEffect(() => {
     const fetchPost = async () => {
       const { data, error } = await supabase.from("posts").select("*").eq("id", postId).single();
@@ -276,10 +252,8 @@ const Detail = () => {
         setMarkdownText(data.description);
       }
     };
-
     fetchPost();
   }, [postId]);
-
   const handleUpdate = async (e) => {
     e.preventDefault();
     const { error } = await supabase.from("posts").update(post).eq("id", postId);
@@ -290,7 +264,6 @@ const Detail = () => {
       setIsEditMode(false);
     }
   };
-
   const handleDelete = async () => {
     const { error } = await supabase.from("posts").delete().eq("id", postId);
     if (error) {
@@ -300,18 +273,15 @@ const Detail = () => {
       navigate("/");
     }
   };
-
   const enterEditMode = () => {
     setIsEditMode(true);
   };
-
   const handleChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
     if (e.target.name === "description") {
       setMarkdownText(e.target.value);
     }
   };
-
   const handleTagButtonClick = (tag) => {
     const textarea = descriptionTextareaRef.current;
     const selectionStart = textarea.selectionStart;
@@ -319,7 +289,6 @@ const Detail = () => {
     const beforeText = post.description.slice(0, selectionStart);
     const selectedText = post.description.slice(selectionStart, selectionEnd);
     const afterText = post.description.slice(selectionEnd);
-
     let newText;
     switch (tag) {
       case "H1":
@@ -334,11 +303,9 @@ const Detail = () => {
       default:
         newText = post.description;
     }
-
     setPost({ ...post, description: newText });
     setMarkdownText(newText);
   };
-
   return (
     <div>
       <FormWrap onSubmit={handleUpdate}>
@@ -424,5 +391,4 @@ const Detail = () => {
     </div>
   );
 };
-
 export default Detail;
