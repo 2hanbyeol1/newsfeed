@@ -275,7 +275,7 @@ const WriteForm = () => {
         </FormWidthWrap>
         <SubmitBtn>
           <div>
-            <button className="back">
+            <button type="button" className="back">
               <FaArrowLeft />
               <Link to="/">나가기</Link>
             </button>
