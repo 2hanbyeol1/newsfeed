@@ -63,7 +63,6 @@ const ProfileEditModal = ({ closeModal, user, profileUrl, setProfileUrl }) => {
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
             />
-            <CheckDuplicateButton type="button">중복 확인</CheckDuplicateButton>
           </FormGroup>
           <FormGroup>
             <Label htmlFor="description">소개</Label>
@@ -157,20 +156,6 @@ const Textarea = styled.textarea`
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
-`;
-
-const CheckDuplicateButton = styled.button`
-  margin-left: 10px;
-  padding: 10px 15px;
-  background: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background: #0056b3;
-  }
 `;
 
 const ImageUpload = styled.div`
