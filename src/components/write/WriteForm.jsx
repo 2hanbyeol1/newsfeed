@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import styled from "styled-components";
-import { FaImage, FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../../supabase/supabase";
+import { useSelector } from "react-redux";
 
 const FormWrap = styled.form`
   width: 100%;
@@ -82,35 +83,6 @@ const SelectBtn = styled.div`
   }
 `;
 
-const ImageUploadButton = styled.label`
-  display: inline-block;
-  cursor: pointer;
-`;
-
-const InputFile = styled.input`
-  display: none;
-`;
-
-const ButtonIcon = styled.span`
-  display: inline-block;
-  width: 52px;
-  height: 52px;
-  background-color: #f3f3f3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  color: #747474;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
-
-  &:hover {
-    background-color: #e0e0e0;
-    color: #333;
-  }
-`;
-
 const Content = styled.div`
   width: 100%;
   min-height: 400px;
@@ -187,50 +159,70 @@ const SubmitBtn = styled.div`
 
 const WriteForm = () => {
   let navigate = useNavigate();
-  const fileInputRef = useRef(null);
-  // const userUniqueId = "d2ae74c5-3d4c-4df3-befa-334170bc93942";
-  const userUniqueId = null;
-  // useselector를 이용해서 한별님이 만들어 놓은 리덕스 값을 가져와야함
+  const isLoggedIn = useSelector((state) => state.login);
 
-  useEffect(() => {
-    if (!userUniqueId) {
-      console.log("hi");
-      confirm("로그인 하고 작성해주세요.");
-      navigate("/");
-    }
-  }, []);
+  if (!isLoggedIn) {
+    confirm("로그인 하고 작성해주세요.");
+    navigate("/");
+  }
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
-  const [createdAt] = useState(new Date());
+  const [createdAt] = useState(new Date().toISOString());
 
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
-  };
+  const descriptionTextareaRef = useRef(null);
 
-  const handleFileChange = (event) => {
-    console.log("File selected:", event.target.files[0]);
+  const handleTagButtonClick = (tag) => {
+    const textarea = descriptionTextareaRef.current;
+
+    const selectionStart = textarea.selectionStart;
+    const selectionEnd = textarea.selectionEnd;
+
+    let newText;
+    switch (tag) {
+      case "H1":
+        newText = `# ${description.slice(selectionStart, selectionEnd)}`;
+        break;
+      case "H2":
+        newText = `## ${description.slice(selectionStart, selectionEnd)}`;
+        break;
+      case "P":
+        newText = `${description.slice(selectionStart, selectionEnd)}\n`;
+        break;
+      default:
+        newText = description;
+    }
+
+    setDescription(description.slice(0, selectionStart) + newText + description.slice(selectionEnd));
+
+    textarea.focus();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+
+    console.log(user);
+
     const { data, error } = await supabase.from("posts").insert([
       {
         title,
         description,
-        created_by: userUniqueId,
+        created_by: user.id,
         created_at: createdAt,
         tag
       }
     ]);
 
     if (error) {
-      console.error("Error adding post:", error.message, error.details, error.hint);
+      console.error("포스트 추가 중 오류 발생:", error.message, error.details, error.hint);
     } else {
       alert("포스트가 정상적으로 추가되었습니다.");
-      console.log("Added post data:", data);
+      console.log("추가된 포스트 데이터:", data);
     }
   };
 
@@ -262,24 +254,19 @@ const WriteForm = () => {
             />
           </TagInput>
           <SelectBtn>
-            <button type="button" aria-label="H1태그로 입력">
+            <button type="button" aria-label="H1태그로 입력" onClick={() => handleTagButtonClick("H1")}>
               H1
             </button>
-            <button type="button" aria-label="H2태그로 입력">
+            <button type="button" aria-label="H2태그로 입력" onClick={() => handleTagButtonClick("H2")}>
               H2
             </button>
-            <button type="button" aria-label="P태그로 입력">
+            <button type="button" aria-label="P태그로 입력" onClick={() => handleTagButtonClick("P")}>
               P
             </button>
-            <ImageUploadButton htmlFor="image-upload" aria-label="Image 업로드" onClick={handleButtonClick}>
-              <ButtonIcon>
-                <FaImage />
-              </ButtonIcon>
-              <InputFile type="file" id="image-upload" ref={fileInputRef} onChange={handleFileChange} />
-            </ImageUploadButton>
           </SelectBtn>
           <Content>
             <textarea
+              ref={descriptionTextareaRef}
               id="description"
               name="description"
               placeholder="나의 개발 이야기를 적어보세요..."

@@ -1,14 +1,7 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../assets/logo.png";
-import { Link } from "react-router-dom";
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
-const CenteredView = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,14 +13,12 @@ const Wrapper = styled.div`
 
 function SignUp() {
   return (
-    <CenteredView>
-      <Wrapper>
-        <Link to={"/"}>
-          <img width="110" src={Logo} />
-        </Link>
-        <SignUpForm />
-      </Wrapper>
-    </CenteredView>
+    <Wrapper>
+      <Link to={"/"}>
+        <img width="110" src={Logo} />
+      </Link>
+      <SignUpForm />
+    </Wrapper>
   );
 }
 

@@ -1,7 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./GlobalStyle";
-import Layout from "./components/Layout";
-import UpButton from "./components/UpButton";
+import BasicLayout from "./layouts/BasicLayout";
+import CenteredLayout from "./layouts/CenteredLayout";
+import HeaderLayout from "./layouts/HeaderLayout";
+import Detail from "./pages/Detail";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
@@ -12,16 +14,20 @@ function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <Layout>
-        <UpButton />
-        <Routes>
+      <Routes>
+        <Route element={<HeaderLayout />}>
           <Route path="/" element={<Main />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/detail" element={<Detail />} />
+        </Route>
+        <Route element={<BasicLayout />}>
+          <Route path="/write" element={<Write />} />
+        </Route>
+        <Route element={<CenteredLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/write" element={<Write />} />
-        </Routes>
-      </Layout>
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }

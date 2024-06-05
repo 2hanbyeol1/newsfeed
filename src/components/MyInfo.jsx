@@ -1,7 +1,13 @@
 import styled from "styled-components";
 import profilePic from "../assets/user256.png";
+import { useState } from "react";
+import ProfileEditModal from "./ProfileEditModal";
 
 const MyInfo = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 관리
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   return (
     <StProfileContainer>
       <StLeftSection>
@@ -10,8 +16,9 @@ const MyInfo = () => {
       <StRightSection>
         <h2>정현우님, 반갑습니다!</h2>
         <StTagline>INFP, 주니어 개발자</StTagline>
-        <StButton>프로필 수정</StButton>
+        <StButton onClick={openModal}>프로필 수정</StButton>
       </StRightSection>
+      {isModalOpen && <ProfileEditModal closeModal={closeModal} />}
     </StProfileContainer>
   );
 };
@@ -27,7 +34,7 @@ const StProfileContainer = styled.div`
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
-  max-width: 1100px;
+  margin-bottom: 80px;
 `;
 
 const StLeftSection = styled.div`
@@ -74,7 +81,7 @@ const StButton = styled.button`
   color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   margin-top: 20px;
   font-size: 20px;
   font-weight: 600;
