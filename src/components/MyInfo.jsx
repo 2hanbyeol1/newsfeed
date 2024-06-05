@@ -3,7 +3,7 @@ import profilePic from "../assets/user256.png";
 import { useState } from "react";
 import ProfileEditModal from "./ProfileEditModal";
 
-const MyInfo = () => {
+const MyInfo = ({ users }) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 관리
 
   const openModal = () => setIsModalOpen(true);
@@ -14,8 +14,9 @@ const MyInfo = () => {
         <StImg src={profilePic} alt="Profile" />
       </StLeftSection>
       <StRightSection>
-        <h2>정현우님, 반갑습니다!</h2>
-        <StTagline>INFP, 주니어 개발자</StTagline>
+        {/* users.email 대신 Users의 id를 받아와서 nickname을 가져온다 */}
+        <h2>{users.email}님, 반갑습니다!</h2>
+        <StTagline>{users.email ? "INFP, 주니어 개발자" : "자신을 소개해주세요."}</StTagline>
         <StButton onClick={openModal}>프로필 수정</StButton>
       </StRightSection>
       {isModalOpen && <ProfileEditModal closeModal={closeModal} />}

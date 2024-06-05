@@ -1,10 +1,13 @@
 import styled from "styled-components";
 
-const MyPost = ({ users }) => {
+const MyPost = ({ users, posts }) => {
+  // 데이터 정보와 일치하는 유저의 아이디값을 가진 데이터만 map
+  const userPosts = posts.filter((post) => post.created_by === users.id);
+  // 포스트 정보 받아오기 -> 포스트에 있는 created_by랑 유저의 아이디 값을 비교하고 일치하는 post 정보만 map 그걸 10번째 줄 []에 넣기
   return (
     <StPosts>
       <h3>내 게시글</h3>
-      {users.map((user) => (
+      {userPosts.map((user) => (
         <div key={user.id}>
           <StPostGrid>
             {user.posts.map((post) => (
