@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import ReactMarkdown from "react-markdown";
 
 const MyPost = ({ user, posts }) => {
   return (
@@ -12,7 +13,7 @@ const MyPost = ({ user, posts }) => {
             <StPost>
               <img src={post.image_url} alt="Post" />
               <h4>{post.title}</h4>
-              <p>{post.description}</p>
+              <ReactMarkdown className="markdown-content">{post.description}</ReactMarkdown>
               <p>{new Date(post.created_at).toLocaleDateString()}</p>
               <h2>{user.nickname}</h2>
             </StPost>
