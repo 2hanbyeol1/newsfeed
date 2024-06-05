@@ -1,8 +1,9 @@
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import styled from "styled-components";
-import { FaImage } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import supabase from "../../supabase/supabase";
+import { useSelector } from "react-redux";
 
 const FormWrap = styled.form`
   width: 100%;
@@ -82,35 +83,6 @@ const SelectBtn = styled.div`
   }
 `;
 
-const ImageUploadButton = styled.label`
-  display: inline-block;
-  cursor: pointer;
-`;
-
-const InputFile = styled.input`
-  display: none;
-`;
-
-const ButtonIcon = styled.span`
-  display: inline-block;
-  width: 52px;
-  height: 52px;
-  background-color: #f3f3f3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  color: #747474;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
-
-  &:hover {
-    background-color: #e0e0e0;
-    color: #333;
-  }
-`;
-
 const Content = styled.div`
   width: 100%;
   min-height: 400px;
@@ -174,8 +146,8 @@ const SubmitBtn = styled.div`
     border-radius: 7px;
     background-color: #61bafe;
     color: #eef1f3;
-    background-color:
-      0.3s,
+    transition:
+      background-color 0.3s,
       color 0.3s;
   }
 
@@ -186,64 +158,133 @@ const SubmitBtn = styled.div`
 `;
 
 const WriteForm = () => {
-  const fileInputRef = useRef(null);
+  let navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.login);
 
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
+  if (!isLoggedIn) {
+    confirm("로그인 하고 작성해주세요.");
+    navigate("/");
+  }
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [tag, setTag] = useState("");
+  const [createdAt] = useState(new Date().toISOString());
+
+  const descriptionTextareaRef = useRef(null);
+
+  const handleTagButtonClick = (tag) => {
+    const textarea = descriptionTextareaRef.current;
+
+    const selectionStart = textarea.selectionStart;
+    const selectionEnd = textarea.selectionEnd;
+
+    let newText;
+    switch (tag) {
+      case "H1":
+        newText = `# ${description.slice(selectionStart, selectionEnd)}`;
+        break;
+      case "H2":
+        newText = `## ${description.slice(selectionStart, selectionEnd)}`;
+        break;
+      case "P":
+        newText = `${description.slice(selectionStart, selectionEnd)}\n`;
+        break;
+      default:
+        newText = description;
+    }
+
+    setDescription(description.slice(0, selectionStart) + newText + description.slice(selectionEnd));
+
+    textarea.focus();
   };
 
-  const handleFileChange = (event) => {
-    console.log("File selected:", event.target.files[0]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+    const { data, error } = await supabase.from("posts").insert([
+      {
+        title,
+        description,
+        created_by: user.id,
+        created_at: createdAt,
+        tag
+      }
+    ]);
+
+    if (error) {
+      console.error("포스트 추가 중 오류 발생:", error.message, error.details, error.hint);
+    } else {
+      alert("포스트가 정상적으로 추가되었습니다.");
+      console.log("추가된 포스트 데이터:", data);
+    }
   };
+
   return (
     <>
-      <FormWrap>
+      <FormWrap onSubmit={handleSubmit}>
         <FormWidthWrap>
           <Title>
-            <input type="text" id="title" name="title" placeholder="제목을 입력하세요." aria-label="제목 입력" />
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="제목을 입력하세요."
+              aria-label="제목 입력"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
             <div></div>
           </Title>
           <TagInput>
-            <input type="text" id="tags" name="tags" placeholder="태그를 입력하세요." aria-label="태그 입력" />
+            <input
+              type="text"
+              id="tags"
+              name="tags"
+              placeholder="태그를 입력하세요."
+              aria-label="태그 입력"
+              value={tag}
+              onChange={(e) => setTag(e.target.value)}
+            />
           </TagInput>
           <SelectBtn>
-            <button type="button" aria-label="H1태그로 입력">
+            <button type="button" aria-label="H1태그로 입력" onClick={() => handleTagButtonClick("H1")}>
               H1
             </button>
-            <button type="button" aria-label="H2태그로 입력">
+            <button type="button" aria-label="H2태그로 입력" onClick={() => handleTagButtonClick("H2")}>
               H2
             </button>
-            <button type="button" aria-label="P태그로 입력">
+            <button type="button" aria-label="P태그로 입력" onClick={() => handleTagButtonClick("P")}>
               P
             </button>
-            <ImageUploadButton htmlFor="image-upload" aria-label="Image 업로드" onClick={handleButtonClick}>
-              <ButtonIcon>
-                <FaImage />
-              </ButtonIcon>
-              <InputFile type="file" id="image-upload" ref={fileInputRef} onChange={handleFileChange} />
-            </ImageUploadButton>
           </SelectBtn>
           <Content>
             <textarea
-              id="content"
-              name="content"
+              ref={descriptionTextareaRef}
+              id="description"
+              name="description"
               placeholder="나의 개발 이야기를 적어보세요..."
               aria-label="내용 작성"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             ></textarea>
           </Content>
         </FormWidthWrap>
+        <SubmitBtn>
+          <div>
+            <button type="button" className="back">
+              <FaArrowLeft />
+              <Link to="/">나가기</Link>
+            </button>
+            <button className="done" type="submit">
+              출간하기
+            </button>
+          </div>
+        </SubmitBtn>
       </FormWrap>
-      <SubmitBtn>
-        <div>
-          <button className="back">
-            <FaArrowLeft />
-            <Link to="/">나가기</Link>
-          </button>
-          <button className="done" type="submit">
-            출간하기
-          </button>
-        </div>
-      </SubmitBtn>
     </>
   );
 };
