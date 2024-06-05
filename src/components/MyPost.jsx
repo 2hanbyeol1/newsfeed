@@ -1,24 +1,21 @@
 import styled from "styled-components";
 
-const MyPost = ({ users }) => {
+const MyPost = ({ user, posts }) => {
   return (
     <StPosts>
       <h3>내 게시글</h3>
-      {users.map((user) => (
-        <div key={user.id}>
-          <StPostGrid>
-            {user.posts.map((post) => (
-              <StPost key={post.id}>
-                <img src={post.image_url} alt="Post" />
-                <h4>{post.title}</h4>
-                <p>{post.description}</p>
-                <p>{new Date(post.created_at).toLocaleDateString()}</p>
-                <h2>{user.nickname}</h2>
-              </StPost>
-            ))}
-          </StPostGrid>
-        </div>
-      ))}
+
+      <StPostGrid>
+        {posts.map((post) => (
+          <StPost key={post.id}>
+            <img src={post.image_url} alt="Post" />
+            <h4>{post.title}</h4>
+            <p>{post.description}</p>
+            <p>{new Date(post.created_at).toLocaleDateString()}</p>
+            <h2>{user.nickname}</h2>
+          </StPost>
+        ))}
+      </StPostGrid>
     </StPosts>
   );
 };

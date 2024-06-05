@@ -1,24 +1,27 @@
 import styled from "styled-components";
-import profilePic from "../assets/user256.png";
 import { useState } from "react";
 import ProfileEditModal from "./ProfileEditModal";
 
-const MyInfo = () => {
+const MyInfo = ({ user, profileUrl, setProfileUrl }) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 관리
 
+  console.log("myInfoUsers =>", user);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
   return (
     <StProfileContainer>
       <StLeftSection>
-        <StImg src={profilePic} alt="Profile" />
+        <StImg src={profileUrl} alt="Profile" />
       </StLeftSection>
       <StRightSection>
-        <h2>정현우님, 반갑습니다!</h2>
-        <StTagline>INFP, 주니어 개발자</StTagline>
+        <h2>{user.nickname}님, 반갑습니다!</h2>
+        <StTagline>{user.introduce ?? "자기소개를 해주세요."}</StTagline>
         <StButton onClick={openModal}>프로필 수정</StButton>
       </StRightSection>
-      {isModalOpen && <ProfileEditModal closeModal={closeModal} />}
+      {isModalOpen && (
+        <ProfileEditModal closeModal={closeModal} user={user} profileUrl={profileUrl} setProfileUrl={setProfileUrl} />
+      )}
     </StProfileContainer>
   );
 };
