@@ -246,19 +246,9 @@ const Detail = () => {
   const [post, setPost] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
   const [markdownText, setMarkdownText] = useState("");
+  const [userId, setUserId] = useState(null);
   const descriptionTextareaRef = useRef(null);
-  useEffect(() => {
-    const fetchPost = async () => {
-      const { data, error } = await supabase.from("posts").select("*").eq("id", postId).single();
-      if (error) {
-        console.error("Error fetching post:", error.message);
-      } else {
-        setPost(data);
-        setMarkdownText(data.description);
-      }
-    };
-    fetchPost();
-  }, [postId]);
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     const { error } = await supabase.from("posts").update(post).eq("id", postId);
@@ -269,6 +259,7 @@ const Detail = () => {
       setIsEditMode(false);
     }
   };
+
   const handleDelete = async () => {
     const { error } = await supabase.from("posts").delete().eq("id", postId);
     if (error) {
@@ -278,15 +269,18 @@ const Detail = () => {
       navigate("/");
     }
   };
+
   const enterEditMode = () => {
     setIsEditMode(true);
   };
+
   const handleChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
     if (e.target.name === "description") {
       setMarkdownText(e.target.value);
     }
   };
+
   const handleTagButtonClick = (tag) => {
     const textarea = descriptionTextareaRef.current;
     const selectionStart = textarea.selectionStart;
@@ -311,6 +305,40 @@ const Detail = () => {
     setPost({ ...post, description: newText });
     setMarkdownText(newText);
   };
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      if (isLoggedIn) {
+        try {
+          const {
+            data: { user }
+          } = await supabase.auth.getUser();
+          if (user) {
+            setUserId(user.id);
+          } else {
+            console.error("사용자 정보를 가져올 수 없습니다.");
+          }
+        } catch (error) {
+          console.error("로그인 상태 확인 중 오류가 발생했습니다:", error.message);
+        }
+      }
+    };
+    checkLogin();
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      const { data, error } = await supabase.from("posts").select("*").eq("id", postId).single();
+      if (error) {
+        console.error("Error fetching post:", error.message);
+      } else {
+        setPost(data);
+        setMarkdownText(data.description);
+      }
+    };
+    fetchPost();
+  }, [postId]);
+
   return (
     <div>
       <FormWrap onSubmit={handleUpdate}>
@@ -368,7 +396,7 @@ const Detail = () => {
             )}
           </Content>
         </FormWidthWrap>
-        {isLoggedIn && (
+        {isLoggedIn && userId === post.created_by && (
           <SubmitBtn>
             <div className="flex-box">
               <button type="button" className="back">
@@ -396,4 +424,5 @@ const Detail = () => {
     </div>
   );
 };
+
 export default Detail;
