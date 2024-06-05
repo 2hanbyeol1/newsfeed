@@ -12,7 +12,7 @@ const StyledLayout = styled.div`
 
 const MainContent = styled.main`
   margin: 0 auto;
-  width: 1280px;
+  width: 1090px;
   flex: 1;
   margin-top: 70px;
 
@@ -21,7 +21,7 @@ const MainContent = styled.main`
   }
 
   @media only screen and (max-width: 734px) {
-    width: 300px;
+    width: 310px;
   }
 `;
 

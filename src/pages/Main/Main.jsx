@@ -2,8 +2,7 @@ import styled from "styled-components";
 import NewsFeed from "../../components/NewsFeed";
 
 const Container = styled.div`
-  display: flex;
-  justify-content: center;
+  width: 100%;
 `;
 function Main() {
   return (
