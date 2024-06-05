@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import supabase from "../supabase/supabase";
-// 1. 이미지를 변경하면, supabase 스토리지에 저장한다.
-// 2. 저장된 이미지를 URL로 가져온다.
-// 3. 수정 버튼을 누르면 가져온 URL을 Users 테이블 프로필 이미지를 업데이트
+
 const ProfileEditModal = ({ closeModal, user, profileUrl, setProfileUrl }) => {
   const [nickname, setNickname] = useState("");
   const [description, setDescription] = useState("");
@@ -36,7 +34,7 @@ const ProfileEditModal = ({ closeModal, user, profileUrl, setProfileUrl }) => {
     const { error } = await supabase
       .from("Users")
       .update({ nickname: nickname, profile_image: profileUrl, introduce: description })
-      .eq("profile_image", user.profile_image);
+      .eq("id", user.id);
 
     if (error) {
       console.error("Error updating profile:", error);
