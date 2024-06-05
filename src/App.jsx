@@ -18,7 +18,7 @@ function App() {
         <Route element={<HeaderLayout />}>
           <Route path="/" element={<Main />} />
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/detail" element={<Detail />} />
+          <Route path="/detail/:id" element={<Detail />} />
         </Route>
         <Route element={<BasicLayout />}>
           <Route path="/write" element={<Write />} />
