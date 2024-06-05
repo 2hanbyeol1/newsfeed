@@ -24,7 +24,10 @@ const StContent = styled.div`
   display: flex;
   width: 1280px;
   height: 100%;
-  margin: 0 auto;
+  /* margin: 20 auto; */
+  margin-left: 32px;
+  margin-right: 32px;
+
   align-items: center;
   justify-content: space-between;
 
