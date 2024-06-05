@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const MyPost = ({ user, posts }) => {
@@ -7,13 +8,15 @@ const MyPost = ({ user, posts }) => {
 
       <StPostGrid>
         {posts.map((post) => (
-          <StPost key={post.id}>
-            <img src={post.image_url} alt="Post" />
-            <h4>{post.title}</h4>
-            <p>{post.description}</p>
-            <p>{new Date(post.created_at).toLocaleDateString()}</p>
-            <h2>{user.nickname}</h2>
-          </StPost>
+          <Link key={post.id} to={`/detail/${post.id}`}>
+            <StPost>
+              <img src={post.image_url} alt="Post" />
+              <h4>{post.title}</h4>
+              <p>{post.description}</p>
+              <p>{new Date(post.created_at).toLocaleDateString()}</p>
+              <h2>{user.nickname}</h2>
+            </StPost>
+          </Link>
         ))}
       </StPostGrid>
     </StPosts>
