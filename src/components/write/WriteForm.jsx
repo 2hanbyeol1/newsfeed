@@ -205,9 +205,6 @@ const WriteForm = () => {
     const {
       data: { user }
     } = await supabase.auth.getUser();
-
-    console.log(user);
-
     const { data, error } = await supabase.from("posts").insert([
       {
         title,
