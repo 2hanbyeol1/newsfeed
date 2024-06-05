@@ -41,15 +41,26 @@ const Title = styled.div`
     height: fit-content;
     line-height: 1.5;
     font-weight: bold;
+
+    @media only screen and (max-width: 1068px) {
+      font-size: 32px;
+    }
+    @media only screen and (max-width: 734px) {
+      font-size: 28px;
+    }
   }
 
   div {
     background: rgb(73, 80, 87);
     height: 6px;
-    width: 3.5vw;
+    width: 3.8vw;
     margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 1px;
+
+    @media only screen and (max-width: 734px) {
+      width: 6vw;
+    }
   }
 `;
 
@@ -80,6 +91,12 @@ const SelectBtn = styled.div`
       background-color: #e0e0e0;
       color: #333;
     }
+
+    @media only screen and (max-width: 734px) {
+      width: 42px;
+      height: 42px;
+      font-size: 18px;
+    }
   }
 `;
 
@@ -104,7 +121,7 @@ const SubmitBtn = styled.div`
 
   div {
     margin: 0 auto;
-    width: 1280px;
+    width: 1090px;
     display: flex;
     justify-content: space-between;
 

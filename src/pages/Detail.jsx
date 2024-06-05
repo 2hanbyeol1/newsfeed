@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import supabase from "../supabase/supabase";
 import { FaArrowLeft } from "react-icons/fa";
@@ -46,10 +46,14 @@ const Title = styled.div`
   div {
     background: rgb(73, 80, 87);
     height: 6px;
-    width: 3.5vw;
+    width: 3.8vw;
     margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 1px;
+
+    @media only screen and (max-width: 734px) {
+      width: 6vw;
+    }
   }
 `;
 const TagInput = styled.div`
@@ -159,7 +163,7 @@ const SubmitBtn = styled.div`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
   div.flex-box {
     margin: 0 auto;
-    width: 1280px;
+    width: 1090px;
     display: flex;
     justify-content: space-between;
     @media only screen and (max-width: 1068px) {
@@ -185,6 +189,7 @@ const SubmitBtn = styled.div`
     display: flex;
     align-items: center;
     color: #000000;
+
     svg {
       margin-right: 10px;
     }
@@ -201,7 +206,6 @@ const SubmitBtn = styled.div`
     transition:
       background-color 0.3s,
       color 0.3s;
-    margin-right: 10px;
   }
   button.done:hover {
     background-color: #5bb4f8;
@@ -225,6 +229,7 @@ const SubmitBtn = styled.div`
     border-radius: 7px;
     background-color: #9f9f9f;
     color: #eef1f3;
+    margin-right: 10px;
     transition:
       background-color 0.3s,
       color 0.3s;
@@ -235,7 +240,7 @@ const SubmitBtn = styled.div`
   }
 `;
 const Detail = () => {
-  const postId = "f96c0eb0-bfc2-4ed2-9fff-bbe8e8333a15"; // 테스트용 게시물 ID
+  const { postId } = useParams();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.login);
   const [post, setPost] = useState({});
@@ -371,18 +376,18 @@ const Detail = () => {
                 <Link to="/">나가기</Link>
               </button>
               {isEditMode ? (
+                <button className="done" type="submit">
+                  수정 완료
+                </button>
+              ) : (
                 <div>
-                  <button className="done" type="submit">
-                    수정 완료
-                  </button>
                   <button type="button" className="delete" onClick={handleDelete}>
                     삭제하기
                   </button>
+                  <button className="edit" onClick={enterEditMode}>
+                    수정하기
+                  </button>
                 </div>
-              ) : (
-                <button className="edit" onClick={enterEditMode}>
-                  수정하기
-                </button>
               )}
             </div>
           </SubmitBtn>
