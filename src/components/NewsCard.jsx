@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import ReactMarkdown from "react-markdown";
 import supabase from "../supabase/supabase";
 import default_Img from "../assets/noImg.png";
 
@@ -70,6 +71,14 @@ const Item = styled.div`
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
   }
+
+  .markdown-content {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 최대 줄 수 */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+  }
 `;
 
 const NewsCard = ({ image_url, title, description, created_by }) => {
@@ -97,7 +106,9 @@ const NewsCard = ({ image_url, title, description, created_by }) => {
         <div className="card-content">
           <img className="content-img" src={image_url || default_Img} onError={onErrorImg} alt="이미지" />
           <div className="title">{title}</div>
-          <div className="content">{description}</div>
+          <div className="content">
+            <ReactMarkdown className="markdown-content">{description}</ReactMarkdown>
+          </div>
         </div>
       </Item>
     </Container>

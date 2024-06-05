@@ -56,6 +56,32 @@ const Title = styled.div`
     }
   }
 `;
+
+const CreateWrap = styled.div`
+  width: 100%;
+  span {
+    font-size: 16px;
+  }
+
+  span:first-child {
+    margin-right: 15px;
+    position: relative;
+  }
+
+  span:first-child::after {
+    content: "";
+    position: absolute;
+    right: -7px;
+    top: 6px;
+    height: 10px;
+    border-left: 1px solid #a4a4a4;
+  }
+
+  span:last-child {
+    color: #888888;
+  }
+`;
+
 const TagInput = styled.div`
   margin: 20px 0 40px 0;
   input {
@@ -206,10 +232,11 @@ const SubmitBtn = styled.div`
     transition:
       background-color 0.3s,
       color 0.3s;
-  }
-  button.done:hover {
-    background-color: #5bb4f8;
-    color: #ffffff;
+
+    &:hover {
+      background-color: #5bb4f8;
+      color: #ffffff;
+    }
   }
   button.edit {
     padding: 10px 15px;
@@ -219,11 +246,13 @@ const SubmitBtn = styled.div`
     transition:
       background-color 0.3s,
       color 0.3s;
+
+    &:hover {
+      background-color: #5bb4f8;
+      color: #ffffff;
+    }
   }
-  button.edit:hover {
-    background-color: #5bb4f8;
-    color: #ffffff;
-  }
+
   button.delete {
     padding: 10px 15px;
     border-radius: 7px;
@@ -247,6 +276,7 @@ const Detail = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [markdownText, setMarkdownText] = useState("");
   const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState(null);
   const descriptionTextareaRef = useRef(null);
 
   const handleUpdate = async (e) => {
@@ -306,6 +336,27 @@ const Detail = () => {
     setMarkdownText(newText);
   };
 
+  const formatCreatedTime = (createdAt) => {
+    const currentTime = new Date();
+    const createdTime = new Date(createdAt);
+
+    const diffInMilliseconds = currentTime - createdTime;
+    const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+
+    if (diffInDays > 0) {
+      return `${diffInDays}일 전`;
+    } else if (diffInHours > 0) {
+      return `${diffInHours}시간 전`;
+    } else if (diffInMinutes > 0) {
+      return `${diffInMinutes}분 전`;
+    } else {
+      return "방금 전";
+    }
+  };
+
   useEffect(() => {
     const checkLogin = async () => {
       if (isLoggedIn) {
@@ -325,6 +376,24 @@ const Detail = () => {
     };
     checkLogin();
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const { data } = await supabase.from("Users").select("*").eq("id", post.created_by);
+        if (data && data.length > 0) {
+          setUser(data[0]);
+        } else {
+          console.error("사용자 정보를 가져올 수 없습니다.");
+        }
+      } catch (error) {
+        console.error("사용자 정보를 가져오는 중 오류가 발생했습니다:", error.message);
+      }
+    };
+    if (post.created_by) {
+      fetchUser();
+    }
+  }, [post.created_by]);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -355,6 +424,10 @@ const Detail = () => {
             />
             <div></div>
           </Title>
+          <CreateWrap>
+            <span>{user?.nickname}</span>
+            <span>{formatCreatedTime(post.created_at)}</span>
+          </CreateWrap>
           <TagInput iseditmode={isEditMode ? "true" : "false"}>
             <input
               type="text"
