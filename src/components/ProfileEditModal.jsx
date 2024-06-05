@@ -1,22 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-
-const ProfileEditModal = ({ closeModal }) => {
+import supabase from "../supabase/supabase";
+// 1. 이미지를 변경하면, supabase 스토리지에 저장한다.
+// 2. 저장된 이미지를 URL로 가져온다.
+// 3. 수정 버튼을 누르면 가져온 URL을 Users 테이블 프로필 이미지를 업데이트
+const ProfileEditModal = ({ closeModal, user, profileUrl, setProfileUrl }) => {
   const [nickname, setNickname] = useState("");
   const [description, setDescription] = useState("");
-  const [profileImage, setProfileImage] = useState(null);
 
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setProfileImage(URL.createObjectURL(e.target.files[0]));
+  useEffect(() => {
+    setNickname(user.nickname);
+    setDescription(user.introduce);
+  }, [user]);
+
+  async function handleFileInputChange(e) {
+    const files = e.target.files;
+    const [file] = files;
+
+    if (!file) {
+      return;
     }
-  };
 
-  const handleSubmit = (e) => {
+    const { data, error } = await supabase.storage.from("avatars").upload(`avatar_${Date.now()}.png`, file);
+
+    if (error) {
+      console.error("Error uploading file:", error);
+      return;
+    }
+    setProfileUrl(`https://sdqrgpszdtttiucabwkd.supabase.co/storage/v1/object/public/avatars/${data.path}`);
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // 프로필 수정 완료 로직 추가
+
+    const { error } = await supabase
+      .from("Users")
+      .update({ nickname: nickname, profile_image: profileUrl, introduce: description })
+      .eq("profile_image", user.profile_image);
+
+    if (error) {
+      console.error("Error updating profile:", error);
+      return;
+    }
+
     alert("프로필 수정 완료!");
     closeModal();
+    location.reload();
   };
 
   return (
@@ -50,8 +79,8 @@ const ProfileEditModal = ({ closeModal }) => {
           <FormGroup>
             <Label htmlFor="profile-image">프로필 이미지</Label>
             <ImageUpload>
-              <FileInput type="file" id="profile-image" name="profile-image" onChange={handleImageChange} />
-              {profileImage && <ProfileImage src={profileImage} alt="Profile" />}
+              <FileInput type="file" id="profile-image" name="profile-image" onChange={handleFileInputChange} />
+              {profileUrl && <ProfileImage src={profileUrl} alt="Profile" />}
             </ImageUpload>
           </FormGroup>
           <SubmitButton type="submit">프로필 수정 완료</SubmitButton>

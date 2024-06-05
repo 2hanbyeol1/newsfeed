@@ -1,28 +1,21 @@
 import styled from "styled-components";
 
-const MyPost = ({ users, posts }) => {
-  // 데이터 정보와 일치하는 유저의 아이디값을 가진 데이터만 map
-
-  // 포스트 정보 받아오기 -> 포스트에 있는 created_by랑 유저의 아이디 값을 비교하고 일치하는 post 정보만 map 그걸 10번째 줄 []에 넣기
-  const userPosts = posts.filter((post) => post.created_by === users.id);
+const MyPost = ({ user, posts }) => {
   return (
     <StPosts>
       <h3>내 게시글</h3>
-      {userPosts.map((user) => (
-        <div key={user.id}>
-          <StPostGrid>
-            {user.posts.map((post) => (
-              <StPost key={post.id}>
-                <img src={post.image_url} alt="Post" />
-                <h4>{post.title}</h4>
-                <p>{post.description}</p>
-                <p>{new Date(post.created_at).toLocaleDateString()}</p>
-                <h2>{user.nickname}</h2>
-              </StPost>
-            ))}
-          </StPostGrid>
-        </div>
-      ))}
+
+      <StPostGrid>
+        {posts.map((post) => (
+          <StPost key={post.id}>
+            <img src={post.image_url} alt="Post" />
+            <h4>{post.title}</h4>
+            <p>{post.description}</p>
+            <p>{new Date(post.created_at).toLocaleDateString()}</p>
+            <h2>{user.nickname}</h2>
+          </StPost>
+        ))}
+      </StPostGrid>
     </StPosts>
   );
 };
