@@ -3,12 +3,18 @@ import styled from "styled-components";
 import supabase from "../supabase/supabase";
 import default_Img from "../assets/noImg.png";
 
+const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+`;
+
 const Item = styled.div`
   padding: 10px;
   text-align: center;
   box-shadow: 0px 0px 20px silver;
   max-width: 300px;
-  margin: 24px auto;
+  margin: 32px 32px auto;
   background-color: #a5d8ff;
   border-radius: 10px;
   border: 1px solid #000;
@@ -36,13 +42,15 @@ const Item = styled.div`
   .card-content {
     background-color: #fff;
     border-radius: 7px;
-    padding: 5px;
+    padding: 16px;
     text-align: left;
+    min-height: 300px;
   }
 
   .content-img {
     width: 100%;
     height: 210px;
+    border-radius: 4px;
   }
 
   .title {
@@ -58,7 +66,7 @@ const Item = styled.div`
     line-height: 1.5;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 6; /* 최대 줄 수 */
+    -webkit-line-clamp: 2; /* 최대 줄 수 */
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
   }
@@ -80,17 +88,19 @@ const NewsCard = ({ image_url, title, description, created_by }) => {
   };
 
   return (
-    <Item>
-      <div className="card-header">
-        <img className="profile" src={user?.profile_image} />
-        <div className="writer">{user?.nickname}</div>
-      </div>
-      <div className="card-content">
-        <img className="content-img" src={image_url || default_Img} onError={onErrorImg} alt="이미지" />
-        <div className="title">{title}</div>
-        <div className="content">{description}</div>
-      </div>
-    </Item>
+    <Container>
+      <Item>
+        <div className="card-header">
+          <img className="profile" src={user?.profile_image} />
+          <div className="writer">{user?.nickname}</div>
+        </div>
+        <div className="card-content">
+          <img className="content-img" src={image_url || default_Img} onError={onErrorImg} alt="이미지" />
+          <div className="title">{title}</div>
+          <div className="content">{description}</div>
+        </div>
+      </Item>
+    </Container>
   );
 };
 

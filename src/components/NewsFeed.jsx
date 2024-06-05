@@ -11,7 +11,6 @@ const Wrapper = styled.div`
 `;
 
 const NewsFeed = () => {
-  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -25,7 +24,7 @@ const NewsFeed = () => {
   return (
     <Wrapper>
       {posts.map((post) => (
-        <Link key={post.id} to={`/detail/${post.id}`}>
+        <Link style={{ textDecoration: "none", color: "inherit" }} key={post.id} to={`/detail/${post.id}`}>
           <NewsCard
             title={post.title}
             description={post.description}
