@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Button from "../../components/Button";
-import Input from "../../components/Input";
-import useInputs from "../../hooks/useInputs";
-import { login } from "../../redux/slices/login.slice";
-import supabase from "../../supabase/supabase";
+import useInputs from "../hooks/useInputs";
+import { login } from "../redux/slices/login.slice";
+import supabase from "../supabase/supabase";
+import Button from "./Button";
+import Input from "./Input";
 
 const StyledForm = styled.form`
   display: flex;

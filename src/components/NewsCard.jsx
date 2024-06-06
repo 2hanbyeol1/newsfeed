@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
-import supabase from "../supabase/supabase";
+import styled from "styled-components";
 import default_Img from "../assets/noImg.png";
+import supabase from "../supabase/supabase";
 
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  width: 100%;
 `;
 
 const Item = styled.div`
   padding: 10px;
   text-align: center;
-  box-shadow: 0px 0px 20px silver;
-  width: 300px;
-  margin: 32px 32px auto;
+  box-shadow: 2px 2px 8px #8686866b;
+  width: 100%;
+  box-sizing: border-box;
   background-color: #a5d8ff;
   border-radius: 10px;
-  border: 1px solid #000;
 
   .card-header {
     display: flex;
@@ -32,6 +32,7 @@ const Item = styled.div`
     background-color: #d8d8d8;
     border-radius: 50%;
     margin-right: 10px;
+    object-fit: cover;
   }
 
   .writer {
@@ -44,13 +45,14 @@ const Item = styled.div`
     border-radius: 7px;
     padding: 16px;
     text-align: left;
-    min-height: 300px;
+    min-height: 290px;
   }
 
   .content-img {
     width: 100%;
     height: 210px;
     border-radius: 4px;
+    object-fit: cover;
   }
 
   .title {
@@ -77,6 +79,10 @@ const Item = styled.div`
     -webkit-line-clamp: 2; /* 최대 줄 수 */
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
+
+    img {
+      display: none;
+    }
   }
 `;
 

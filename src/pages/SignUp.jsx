@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Logo from "../../assets/logo.png";
-import SignUpForm from "../../components/SignUpForm/SignUpForm";
+import Logo from "../assets/logo.png";
+import SignUpForm from "../components/SignUpForm";
 
 const Wrapper = styled.div`
   display: flex;
