@@ -9,6 +9,10 @@ const GlobalStyle = createGlobalStyle`
 		font-family: "Noto Sans KR", sans-serif !important;
 		font-style: normal !important;
 	}
+
+	p {
+    word-break: break-all;
+	}
 `;
 
 export default GlobalStyle;
