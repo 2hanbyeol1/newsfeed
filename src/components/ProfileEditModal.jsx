@@ -65,22 +65,27 @@ const ProfileEditModal = ({ closeModal, user, profileUrl, setProfileUrl }) => {
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="description">소개</Label>
-            <Textarea
+            <Label className="description-label" htmlFor="description">
+              소개
+            </Label>
+            <Input
+              type="text"
               id="description"
               name="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </FormGroup>
-          <FormGroup>
-            <Label htmlFor="profile-image">프로필 이미지</Label>
+          <FormImgGroup>
             <ImageUpload>
               <FileInput type="file" id="profile-image" name="profile-image" onChange={handleFileInputChange} />
               {profileUrl && <ProfileImage src={profileUrl} alt="Profile" />}
             </ImageUpload>
-          </FormGroup>
-          <SubmitButton type="submit">프로필 수정 완료</SubmitButton>
+            <ImgButton htmlFor="profile-image">이미지 변경하기</ImgButton>
+          </FormImgGroup>
+          <ButtonContainer>
+            <SubmitButton type="submit">프로필 수정 완료</SubmitButton>
+          </ButtonContainer>
         </ProfileForm>
       </ModalContainer>
     </ModalOverlay>
@@ -118,6 +123,7 @@ const ModalHeader = styled.div`
 
   h2 {
     margin: 0;
+    font-weight: bold;
   }
 `;
 
@@ -126,6 +132,7 @@ const CloseButton = styled.button`
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
+  color: #3abef9;
 `;
 
 const ProfileForm = styled.form`
@@ -134,23 +141,49 @@ const ProfileForm = styled.form`
 `;
 
 const FormGroup = styled.div`
+  display: flex;
   margin-bottom: 15px;
+  justify-content: space-around;
+  align-items: center;
+
+  label:first-child {
+    padding-right: 0px;
+  }
+
+  label.description-label {
+    padding-right: 15px;
+  }
+`;
+
+const FormImgGroup = styled.div`
+  display: flex;
+  margin-bottom: 15px;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const Label = styled.label`
-  display: block;
   margin-bottom: 5px;
 `;
 
-const Input = styled.input`
-  width: calc(100% - 90px);
+const ImgButton = styled.label`
+  margin-top: 30px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  background: #3abef9;
+  color: #fff;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 5px;
-  box-sizing: border-box;
+  text-align: center;
+
+  &:hover {
+    background: #0aa4eb;
+  }
 `;
 
-const Textarea = styled.textarea`
+const Input = styled.input`
   width: calc(100% - 90px);
   padding: 10px;
   border: 1px solid #ccc;
@@ -173,17 +206,22 @@ const ProfileImage = styled.img`
   border-radius: 50%;
   cursor: pointer;
 `;
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
 
 const SubmitButton = styled.button`
-  width: 100%;
+  width: 150px;
   padding: 10px;
-  background: #28a745;
+  background: #3abef9;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 
   &:hover {
-    background: #218838;
+    background: #0aa4eb;
   }
 `;
