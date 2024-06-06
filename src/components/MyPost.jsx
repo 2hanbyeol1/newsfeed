@@ -60,6 +60,12 @@ const StPost = styled.div`
     transition-duration: 0.4s;
   }
 
+  .markdown-content {
+    img {
+      display: none;
+    }
+  }
+
   img {
     width: 100%; /* 이미지의 너비를 전체로 설정 */
     aspect-ratio: 16 / 9; /* 이미지 비율 설정 */
