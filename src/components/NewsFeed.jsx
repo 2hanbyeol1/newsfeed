@@ -21,7 +21,7 @@ const NewsFeed = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      let { data } = await supabase.from("posts").select("*");
+      let { data } = await supabase.from("posts").select("*").order("created_at", { ascending: false });
       setPosts(data);
     };
     fetchPosts();
