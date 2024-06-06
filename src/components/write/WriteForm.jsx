@@ -262,7 +262,7 @@ const WriteForm = () => {
     if (error) {
       console.error("Error adding post:", error.message, error.details, error.hint);
     } else {
-      alert("글이 정상적으로 출간되었습니다.");
+      alert("게시글이 정상적으로 출간되었습니다.");
       navigate("/");
     }
   };
