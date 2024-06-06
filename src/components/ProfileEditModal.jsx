@@ -29,6 +29,7 @@ const ProfileEditModal = ({ closeModal, user, profileUrl, setProfileUrl }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (nickname === "") return alert("닉네임을 입력해주세요");
     const { error } = await supabase
       .from("Users")
       .update({ nickname, profile_image: profileUrl, introduce: description })
