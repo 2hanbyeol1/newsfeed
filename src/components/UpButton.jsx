@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import scrollTopImage from "../assets/upbutton.png";
 
 const ScrollButton = styled.button`
   position: fixed;
@@ -43,7 +44,7 @@ const UpButton = () => {
   return (
     <>
       <ScrollButton onClick={scrollToTop} $isVisible={isVisible}>
-        <img className="button-img" src="/src/assets/upbutton.png" alt="Scroll to top"></img>
+        <img className="button-img" src={scrollTopImage} alt="Scroll to top"></img>
       </ScrollButton>
     </>
   );
