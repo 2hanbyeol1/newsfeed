@@ -230,9 +230,7 @@ const WriteForm = () => {
       default:
         newText = description;
     }
-
     setDescription(newText);
-
     textarea.focus();
   };
 
@@ -240,10 +238,7 @@ const WriteForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title || !description || !tag) {
-      alert("제목, 내용 및 태그를 입력해주세요.");
-      return;
-    }
+    if (!title || !description || !tag) return alert("제목, 내용 및 태그를 입력해주세요.");
 
     const {
       data: { user }
@@ -270,10 +265,9 @@ const WriteForm = () => {
   /* Leave */
   const handleLeaveClick = (e) => {
     e.preventDefault();
-    const confirmed = confirm("작성 중인 내용이 저장되지 않습니다. 정말 떠나시겠습니까?");
-    if (confirmed) {
-      navigate("/");
-    }
+    let confirmed = true;
+    if (title || tag || description) confirmed = confirm("작성 중인 내용이 저장되지 않습니다. 정말 떠나시겠습니까?");
+    if (confirmed) navigate("/");
   };
 
   return (
