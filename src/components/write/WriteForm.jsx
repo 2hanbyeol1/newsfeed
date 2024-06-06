@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import supabase from "../../supabase/supabase";
 import { useSelector } from "react-redux";
 
+/* Form All */
 const FormWrap = styled.form`
   width: 100%;
 
@@ -29,8 +30,20 @@ const FormWidthWrap = styled.div`
   margin: 0 auto;
   padding: 20px 0;
   box-sizing: border-box;
+
+  label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
 `;
 
+/* Title */
 const Title = styled.div`
   width: 100%;
 
@@ -64,10 +77,12 @@ const Title = styled.div`
   }
 `;
 
+/* Tag */
 const TagInput = styled.div`
   margin: 40px 0;
 `;
 
+/* Markdown SelectBtn */
 const SelectBtn = styled.div`
   display: flex;
   margin-bottom: 40px;
@@ -100,6 +115,7 @@ const SelectBtn = styled.div`
   }
 `;
 
+/* Content */
 const Content = styled.div`
   width: 100%;
   min-height: 300px;
@@ -158,6 +174,7 @@ const SubmitBtn = styled.div`
     }
   }
 
+  /* Buttons */
   button.done {
     padding: 10px 15px;
     border-radius: 7px;
@@ -178,6 +195,7 @@ const WriteForm = () => {
   let navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.login);
 
+  /* Login Check */
   if (!isLoggedIn) {
     confirm("로그인 하고 작성해주세요.");
     navigate("/");
@@ -187,9 +205,9 @@ const WriteForm = () => {
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
   const [createdAt] = useState(new Date().toISOString());
-
   const descriptionTextareaRef = useRef(null);
 
+  /* Tag Select */
   const handleTagButtonClick = (tag) => {
     const textarea = descriptionTextareaRef.current;
     const selectionStart = textarea.selectionStart;
@@ -218,8 +236,14 @@ const WriteForm = () => {
     textarea.focus();
   };
 
+  /* Add */
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!title || !description || !tag) {
+      alert("제목, 내용 및 태그를 입력해주세요.");
+      return;
+    }
 
     const {
       data: { user }
@@ -238,8 +262,16 @@ const WriteForm = () => {
     if (error) {
       console.error("Error adding post:", error.message, error.details, error.hint);
     } else {
-      alert("포스트가 정상적으로 추가되었습니다.");
-      console.log("Added post data:", data);
+      alert("글이 정상적으로 출간되었습니다.");
+      navigate("/");
+    }
+  };
+
+  /* Leave */
+  const handleLeaveClick = (e) => {
+    e.preventDefault();
+    const confirmed = confirm("작성 중인 내용이 저장되지 않습니다. 정말 떠나시겠습니까?");
+    if (confirmed) {
       navigate("/");
     }
   };
@@ -249,24 +281,24 @@ const WriteForm = () => {
       <FormWrap onSubmit={handleSubmit}>
         <FormWidthWrap>
           <Title>
+            <label htmlFor="title">제목 입력</label>
             <input
               type="text"
               id="title"
               name="title"
               placeholder="제목을 입력하세요."
-              aria-label="제목 입력"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
             <div></div>
           </Title>
           <TagInput>
+            <label htmlFor="tags">태그 입력</label>
             <input
               type="text"
               id="tags"
               name="tags"
               placeholder="태그를 입력하세요."
-              aria-label="태그 입력"
               value={tag}
               onChange={(e) => setTag(e.target.value)}
             />
@@ -296,7 +328,7 @@ const WriteForm = () => {
         </FormWidthWrap>
         <SubmitBtn>
           <div>
-            <button className="back">
+            <button type="button" className="back" onClick={handleLeaveClick}>
               <FaArrowLeft />
               <Link to="/">나가기</Link>
             </button>
