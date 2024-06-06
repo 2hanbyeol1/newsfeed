@@ -5,7 +5,6 @@ import ProfileEditModal from "./ProfileEditModal";
 const MyInfo = ({ user, profileUrl, setProfileUrl }) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 관리
 
-  console.log("myInfoUsers =>", user);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 

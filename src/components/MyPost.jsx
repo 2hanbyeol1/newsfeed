@@ -2,22 +2,21 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 
-const MyPost = ({ user, posts }) => {
+const MyPost = ({ posts }) => {
   return (
     <StPosts>
       <h3>내 게시글</h3>
 
       <StPostGrid>
         {posts.map((post) => (
-          <Link key={post.id} to={`/detail/${post.id}`}>
+          <StyledLink key={post.id} to={`/detail/${post.id}`}>
             <StPost>
               <img src={post.image_url} alt="Post" />
               <h4>{post.title}</h4>
               <ReactMarkdown className="markdown-content">{post.description}</ReactMarkdown>
               <p>{new Date(post.created_at).toLocaleDateString()}</p>
-              <h2>{user.nickname}</h2>
             </StPost>
-          </Link>
+          </StyledLink>
         ))}
       </StPostGrid>
     </StPosts>
@@ -48,6 +47,7 @@ const StPostGrid = styled.div`
 `;
 
 const StPost = styled.div`
+  min-height: 200px;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -63,15 +63,26 @@ const StPost = styled.div`
 
   img {
     width: 100%; /* 이미지의 너비를 전체로 설정 */
-    height: 70%;
+    aspect-ratio: 16 / 9; /* 이미지 비율 설정 */
     border-radius: 10px;
     object-fit: cover;
   }
   h4 {
     margin: 10px 0 5px;
+    font-weight: bold;
   }
   p {
-    font-size: 0.9em;
+    font-size: 16px;
     color: #666;
+    line-height: 1.5; /* 줄 간격 설정 */
+    flex-grow: 1; /* 텍스트가 길어질 경우 자동으로 높이 조정 */
+    white-space: nowrap;
+    overflow: hidden; /* 내용이 넘칠 경우 자르기 */
+    text-overflow: ellipsis; /* 내용이 넘칠 경우 ...으로 표시 */
+    max-width: 100%;
   }
+`;
+const StyledLink = styled(Link)`
+  text-decoration: none; /* 링크의 밑줄 없애기 */
+  color: inherit; /* 링크의 색상을 부모 요소의 색상으로 설정 */
 `;

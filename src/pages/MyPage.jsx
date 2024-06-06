@@ -20,7 +20,6 @@ const MyPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const { data: userData, error: userError } = await supabase.auth.getUser();
-      console.log("user => ", userData);
 
       if (userError) {
         console.error(userError);
@@ -34,10 +33,10 @@ const MyPage = () => {
         .single();
 
       if (loggedUserError) {
-        console.log(loggedUserError);
+        console.error(loggedUserError);
         return;
       }
-      console.log("loggedUser => ", loggedUser);
+
       setUser(loggedUser);
 
       const { data: loggedPosts, error: postsError } = await supabase
@@ -50,7 +49,6 @@ const MyPage = () => {
         return;
       }
       setPosts(loggedPosts);
-      console.log("post =>", loggedPosts);
 
       const { data } = supabase.storage.from("avatars").getPublicUrl("default-profile.png");
       if (loggedUser.profile_image !== null) {
@@ -58,7 +56,6 @@ const MyPage = () => {
       } else {
         setProfileUrl(data.publicUrl);
       }
-      console.log("loggedUser.introduce => ", loggedUser.introduce);
     };
 
     fetchData();
@@ -70,7 +67,7 @@ const MyPage = () => {
   return (
     <>
       <MyInfo user={user} profileUrl={profileUrl} setProfileUrl={setProfileUrl} />
-      <MyPost user={user} posts={posts} />
+      <MyPost posts={posts} />
     </>
   );
 };
