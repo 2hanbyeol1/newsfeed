@@ -330,7 +330,7 @@ const WriteForm = () => {
           <div>
             <button type="button" className="back" onClick={handleLeaveClick}>
               <FaArrowLeft />
-              <Link to="/">나가기</Link>
+              <span>나가기</span>
             </button>
             <button className="done" type="submit">
               출간하기

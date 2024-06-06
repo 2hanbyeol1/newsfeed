@@ -478,7 +478,7 @@ const Detail = () => {
             <span>{formatCreatedTime(post.created_at)}</span>
           </CreateWrap>
           <TagInput iseditmode={isEditMode ? "true" : "false"}>
-            <label htmlFor="tags">태그 입력</label>
+            <label htmlFor="tag">태그 입력</label>
             <input
               type="text"
               name="tag"
@@ -523,7 +523,7 @@ const Detail = () => {
             <FlexBox>
               <button type="button" className="back" onClick={handleLeaveClick}>
                 <FaArrowLeft />
-                <Link to="/">나가기</Link>
+                <span>나가기</span>
               </button>
               {isEditMode ? (
                 <button className="done" type="submit">
