@@ -29,6 +29,17 @@ const FormWidthWrap = styled.div`
   margin: 0 auto;
   padding: 20px 0;
   box-sizing: border-box;
+
+  label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
 `;
 
 /* Title */
@@ -335,7 +346,7 @@ const Detail = () => {
     }
   };
 
-  /* MarkDown Select */
+  /* Tag Select */
   const handleTagButtonClick = (tag) => {
     const textarea = descriptionTextareaRef.current;
     const selectionStart = textarea.selectionStart;
@@ -451,11 +462,11 @@ const Detail = () => {
       <FormWrap onSubmit={handleUpdate}>
         <FormWidthWrap>
           <Title>
+            <label htmlFor="title">제목 입력</label>
             <input
               type="text"
               name="title"
               placeholder="제목을 입력하세요."
-              aria-label="제목 입력"
               value={post.title || ""}
               onChange={handleChange}
               readOnly={!isEditMode}
@@ -467,11 +478,11 @@ const Detail = () => {
             <span>{formatCreatedTime(post.created_at)}</span>
           </CreateWrap>
           <TagInput iseditmode={isEditMode ? "true" : "false"}>
+            <label htmlFor="tags">태그 입력</label>
             <input
               type="text"
               name="tag"
               placeholder="태그를 입력하세요."
-              aria-label="태그 입력"
               value={post.tag || ""}
               onChange={handleChange}
               readOnly={!isEditMode}

@@ -293,11 +293,11 @@ const WriteForm = () => {
             <div></div>
           </Title>
           <TagInput>
-            <label htmlFor="tags">태그 입력</label>
+            <label htmlFor="tag">태그 입력</label>
             <input
               type="text"
-              id="tags"
-              name="tags"
+              id="tag"
+              name="tag"
               placeholder="태그를 입력하세요."
               value={tag}
               onChange={(e) => setTag(e.target.value)}
