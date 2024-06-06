@@ -12,7 +12,7 @@ const StHeader = styled.header`
   width: 100%;
   height: 70px;
   background: white;
-  z-index: 100;
+  z-index: 10;
   display: flex;
   justify-content: center;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 8px;

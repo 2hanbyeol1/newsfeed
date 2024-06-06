@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { useState } from "react";
+import styled from "styled-components";
 import ProfileEditModal from "./ProfileEditModal";
 
 const MyInfo = ({ user, profileUrl, setProfileUrl }) => {
@@ -14,8 +14,10 @@ const MyInfo = ({ user, profileUrl, setProfileUrl }) => {
         <StImg src={profileUrl} alt="Profile" />
       </StLeftSection>
       <StRightSection>
-        <h2>{user.nickname}님, 반갑습니다!</h2>
-        <StTagline>{user.introduce ?? "자기소개를 해주세요."}</StTagline>
+        <div>
+          <h2>{user.nickname}님, 반갑습니다! 👋</h2>
+          <StTagline>{user.introduce ?? "자기소개를 해주세요."}</StTagline>
+        </div>
         <StButton onClick={openModal}>프로필 수정</StButton>
       </StRightSection>
       {isModalOpen && (
@@ -29,68 +31,55 @@ export default MyInfo;
 
 const StProfileContainer = styled.div`
   display: flex;
-  flex-direction: row; /* 요소들을 가로로 정렬 */
+  flex-direction: row;
   align-items: center;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
-  margin-bottom: 80px;
+  gap: 25px;
+  padding: 20px 20px 30px;
+  margin: 20px 0 55px;
+  border-bottom: 1px solid #ddd;
 `;
 
 const StLeftSection = styled.div`
   display: flex;
   flex-direction: column; /* 버튼과 이미지가 세로로 정렬되도록 */
   align-items: center;
-  margin-right: 20px; /* 왼쪽 섹션과 오른쪽 섹션 사이의 간격 */
 `;
 
 const StRightSection = styled.div`
   display: flex;
   flex-direction: column; /* 텍스트들이 세로로 정렬되도록 */
   align-items: flex-start;
-  margin-left: 2em;
-  margin-bottom: 60px;
+  gap: 20px;
 
   h2 {
-    margin: 20px 0;
     font-size: 24px; /* 가독성을 위한 크기 조정 */
     font-weight: 700;
+    margin-bottom: 10px;
   }
 `;
 
 const StImg = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   border: 2px solid #ddd;
-  margin-bottom: 20px; /* 이미지와 버튼 사이의 간격 조정 */
+  object-fit: cover;
 `;
 
-const StTagline = styled.p`
-  background-color: #3abef9;
-  color: #fff;
-  padding: 15px 50px;
-  border-radius: 20px;
-  margin-top: 10px; /* 소개 텍스트와 위 텍스트 사이의 간격 조정 */
-  font-size: 20px;
-  font-weight: 600;
-`;
+const StTagline = styled.p``;
 
 const StButton = styled.button`
-  background-color: #3abef9;
+  background-color: #69cffd;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 6px 20px;
   border-radius: 10px;
-  margin-top: 20px;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 600;
   cursor: pointer;
 
   &:hover {
-    background-color: rgb(10, 123, 175);
+    background-color: #39c0ff;
     transition: background-color 0.3s ease-in-out 0s;
   }
 `;

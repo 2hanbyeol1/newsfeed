@@ -1,20 +1,20 @@
+import ReactMarkdown from "react-markdown";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import ReactMarkdown from "react-markdown";
+import default_Img from "../assets/noImg.png";
 
 const MyPost = ({ posts }) => {
   return (
     <StPosts>
       <h3>내 게시글</h3>
-
       <StPostGrid>
         {posts.map((post) => (
           <StyledLink key={post.id} to={`/detail/${post.id}`}>
             <StPost>
-              <img src={post.image_url} alt="Post" />
+              <img src={post.image_url || default_Img} alt="Post" />
               <h4>{post.title}</h4>
               <ReactMarkdown className="markdown-content">{post.description}</ReactMarkdown>
-              <p>{new Date(post.created_at).toLocaleDateString()}</p>
+              <time>{new Date(post.created_at).toLocaleDateString()}</time>
             </StPost>
           </StyledLink>
         ))}
@@ -33,15 +33,14 @@ const StPosts = styled.section`
   background-color: #fff;
 
   h3 {
-    display: flex;
     font-size: 24px;
-    font-weight: 700;
+    font-weight: bold;
   }
 `;
 
 const StPostGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 50px;
   margin-top: 20px;
 `;
@@ -68,18 +67,25 @@ const StPost = styled.div`
     object-fit: cover;
   }
   h4 {
-    margin: 10px 0 5px;
+    font-size: 20px;
+    margin: 10px 0;
     font-weight: bold;
   }
   p {
     font-size: 16px;
     color: #666;
-    line-height: 1.5; /* 줄 간격 설정 */
-    flex-grow: 1; /* 텍스트가 길어질 경우 자동으로 높이 조정 */
     white-space: nowrap;
     overflow: hidden; /* 내용이 넘칠 경우 자르기 */
     text-overflow: ellipsis; /* 내용이 넘칠 경우 ...으로 표시 */
     max-width: 100%;
+    margin: 10px 0;
+  }
+  time {
+    color: gray;
+    font-size: 12px;
+    text-align: end;
+    width: 100%;
+    display: inline-block;
   }
 `;
 const StyledLink = styled(Link)`
