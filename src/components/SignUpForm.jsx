@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Input from "../../components/Input";
-import useInputs from "../../hooks/useInputs";
-import supabase from "../../supabase/supabase";
-import Button from "../Button";
+import useInputs from "../hooks/useInputs";
+import supabase from "../supabase/supabase";
+import Button from "./Button";
+import Input from "./Input";
 
 function SignUpForm() {
   const navigate = useNavigate();

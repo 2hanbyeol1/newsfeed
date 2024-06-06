@@ -1,9 +1,9 @@
-import { useState, useRef } from "react";
-import styled from "styled-components";
+import { useRef, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import supabase from "../../supabase/supabase";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import supabase from "../supabase/supabase";
 
 /* Form All */
 const FormWrap = styled.form`
@@ -249,7 +249,7 @@ const WriteForm = () => {
       data: { user }
     } = await supabase.auth.getUser();
 
-    const { data, error } = await supabase.from("posts").insert([
+    const { error } = await supabase.from("posts").insert([
       {
         title,
         description,
