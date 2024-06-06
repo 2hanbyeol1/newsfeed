@@ -14,12 +14,11 @@ const Item = styled.div`
   padding: 10px;
   text-align: center;
   box-shadow: 0px 0px 20px silver;
-  max-width: 300px;
+  width: 300px;
   margin: 32px 32px auto;
   background-color: #a5d8ff;
   border-radius: 10px;
   border: 1px solid #000;
-  min-width: 300px;
 
   .card-header {
     display: flex;
