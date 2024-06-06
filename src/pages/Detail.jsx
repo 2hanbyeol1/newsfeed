@@ -5,6 +5,8 @@ import supabase from "../supabase/supabase";
 import { FaArrowLeft } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import ReactMarkdown from "react-markdown";
+
+/* Form All*/
 const FormWrap = styled.form`
   width: 100%;
   input,
@@ -22,11 +24,25 @@ const FormWrap = styled.form`
     cursor: pointer;
   }
 `;
+
 const FormWidthWrap = styled.div`
   margin: 0 auto;
   padding: 20px 0;
   box-sizing: border-box;
+
+  label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
 `;
+
+/* Title */
 const Title = styled.div`
   width: 100%;
   input {
@@ -50,24 +66,22 @@ const Title = styled.div`
     margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 1px;
-
     @media only screen and (max-width: 734px) {
       width: 6vw;
     }
   }
 `;
 
+/* Create By,At */
 const CreateWrap = styled.div`
   width: 100%;
   span {
     font-size: 16px;
   }
-
   span:first-child {
     margin-right: 15px;
     position: relative;
   }
-
   span:first-child::after {
     content: "";
     position: absolute;
@@ -76,12 +90,12 @@ const CreateWrap = styled.div`
     height: 10px;
     border-left: 1px solid #a4a4a4;
   }
-
   span:last-child {
     color: #888888;
   }
 `;
 
+/* Tag */
 const TagInput = styled.div`
   margin: 20px 0 40px 0;
   input {
@@ -94,6 +108,34 @@ const TagInput = styled.div`
     color: ${(props) => (props.isEditMode ? "inherit" : "#349DED")};
   }
 `;
+
+/* Markdown SelectBtn */
+const SelectBtn = styled.div`
+  display: flex;
+  margin-bottom: 40px;
+  button {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #747474;
+    flex-shrink: 0;
+    background-color: #f3f3f3;
+    border-right: 1px solid #fff;
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+    &:hover {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+  }
+`;
+
+/* Content */
 const Content = styled.div`
   width: 100%;
   min-height: 400px;
@@ -103,6 +145,7 @@ const Content = styled.div`
     overflow: auto;
   }
 `;
+
 const MarkdownPreview = styled.div`
   width: 100%;
   min-height: 400px;
@@ -155,30 +198,8 @@ const MarkdownPreview = styled.div`
     margin: 10px 0;
   }
 `;
-const SelectBtn = styled.div`
-  display: flex;
-  margin-bottom: 40px;
-  button {
-    width: 52px;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #747474;
-    flex-shrink: 0;
-    background-color: #f3f3f3;
-    border-right: 1px solid #fff;
-    transition:
-      background-color 0.3s,
-      color 0.3s;
-    &:hover {
-      background-color: #e0e0e0;
-      color: #333;
-    }
-  }
-`;
+
+/* Buttons */
 const SubmitBtn = styled.div`
   width: 100%;
   position: fixed;
@@ -187,18 +208,7 @@ const SubmitBtn = styled.div`
   padding: 17px 0;
   background-color: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
-  div.flex-box {
-    margin: 0 auto;
-    width: 1090px;
-    display: flex;
-    justify-content: space-between;
-    @media only screen and (max-width: 1068px) {
-      width: 710px;
-    }
-    @media only screen and (max-width: 734px) {
-      width: 300px;
-    }
-  }
+
   button {
     font-size: 20px;
     border: none;
@@ -268,6 +278,20 @@ const SubmitBtn = styled.div`
     color: #ffffff;
   }
 `;
+
+const FlexBox = styled.div`
+  margin: 0 auto;
+  width: 1090px;
+  display: flex;
+  justify-content: space-between;
+  @media only screen and (max-width: 1068px) {
+    width: 710px;
+  }
+  @media only screen and (max-width: 734px) {
+    width: 300px;
+  }
+`;
+
 const Detail = () => {
   const { postId } = useParams();
   const navigate = useNavigate();
@@ -279,27 +303,38 @@ const Detail = () => {
   const [user, setUser] = useState(null);
   const descriptionTextareaRef = useRef(null);
 
+  /* Update */
   const handleUpdate = async (e) => {
     e.preventDefault();
+
+    if (!post.title || !post.description || !post.tag) {
+      alert("제목, 내용 및 태그를 입력해주세요.");
+      return;
+    }
+
     const { error } = await supabase.from("posts").update(post).eq("id", postId);
     if (error) {
       console.error("Error updating post:", error.message);
     } else {
-      alert("포스트가 정상적으로 수정되었습니다.");
+      alert("게시글이 정상적으로 수정되었습니다.");
       setIsEditMode(false);
     }
   };
 
+  /* Delete */
   const handleDelete = async () => {
-    const { error } = await supabase.from("posts").delete().eq("id", postId);
-    if (error) {
-      console.error("Error deleting post:", error.message);
-    } else {
-      alert("포스트가 삭제되었습니다.");
-      navigate("/");
+    const confirmed = confirm("정말로 이 게시물을 삭제하시겠습니까?");
+    if (confirmed) {
+      try {
+        await supabase.from("posts").delete().eq("id", postId);
+        alert("게시물이 삭제되었습니다.");
+        navigate("/");
+      } catch (error) {
+        console.error("게시물 삭제 중 오류 발생:", error.message);
+      }
     }
   };
-
+  /* EditMode  */
   const enterEditMode = () => {
     setIsEditMode(true);
   };
@@ -311,6 +346,7 @@ const Detail = () => {
     }
   };
 
+  /* Tag Select */
   const handleTagButtonClick = (tag) => {
     const textarea = descriptionTextareaRef.current;
     const selectionStart = textarea.selectionStart;
@@ -336,6 +372,7 @@ const Detail = () => {
     setMarkdownText(newText);
   };
 
+  /* CreatedAt */
   const formatCreatedTime = (createdAt) => {
     const currentTime = new Date();
     const createdTime = new Date(createdAt);
@@ -357,6 +394,16 @@ const Detail = () => {
     }
   };
 
+  /* Leave */
+  const handleLeaveClick = (e) => {
+    e.preventDefault();
+    const confirmed = confirm("작성 중인 내용이 저장되지 않습니다. 정말 떠나시겠습니까?");
+    if (confirmed) {
+      navigate("/");
+    }
+  };
+
+  /* Getting login Information */
   useEffect(() => {
     const checkLogin = async () => {
       if (isLoggedIn) {
@@ -377,6 +424,7 @@ const Detail = () => {
     checkLogin();
   }, [isLoggedIn]);
 
+  /* Getting User Information */
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -395,11 +443,12 @@ const Detail = () => {
     }
   }, [post.created_by]);
 
+  /* Getting Post information */
   useEffect(() => {
     const fetchPost = async () => {
       const { data, error } = await supabase.from("posts").select("*").eq("id", postId).single();
       if (error) {
-        console.error("Error fetching post:", error.message);
+        console.error("게시물 정보를 가져오는 중 오류가 발생했습니다:", error.message);
       } else {
         setPost(data);
         setMarkdownText(data.description);
@@ -413,11 +462,11 @@ const Detail = () => {
       <FormWrap onSubmit={handleUpdate}>
         <FormWidthWrap>
           <Title>
+            <label htmlFor="title">제목 입력</label>
             <input
               type="text"
               name="title"
               placeholder="제목을 입력하세요."
-              aria-label="제목 입력"
               value={post.title || ""}
               onChange={handleChange}
               readOnly={!isEditMode}
@@ -429,11 +478,11 @@ const Detail = () => {
             <span>{formatCreatedTime(post.created_at)}</span>
           </CreateWrap>
           <TagInput iseditmode={isEditMode ? "true" : "false"}>
+            <label htmlFor="tag">태그 입력</label>
             <input
               type="text"
               name="tag"
               placeholder="태그를 입력하세요."
-              aria-label="태그 입력"
               value={post.tag || ""}
               onChange={handleChange}
               readOnly={!isEditMode}
@@ -471,10 +520,10 @@ const Detail = () => {
         </FormWidthWrap>
         {isLoggedIn && userId === post.created_by && (
           <SubmitBtn>
-            <div className="flex-box">
-              <button type="button" className="back">
+            <FlexBox>
+              <button type="button" className="back" onClick={handleLeaveClick}>
                 <FaArrowLeft />
-                <Link to="/">나가기</Link>
+                <span>나가기</span>
               </button>
               {isEditMode ? (
                 <button className="done" type="submit">
@@ -490,7 +539,7 @@ const Detail = () => {
                   </button>
                 </div>
               )}
-            </div>
+            </FlexBox>
           </SubmitBtn>
         )}
       </FormWrap>
