@@ -180,6 +180,12 @@ const MarkdownPreview = styled.div`
     font-size: 14px;
     line-height: 1.6;
   }
+  img {
+    width: 25%;
+    min-width: 170px;
+    display: block;
+    margin: 15px auto;
+  }
   ul,
   ol {
     padding-left: 20px;
