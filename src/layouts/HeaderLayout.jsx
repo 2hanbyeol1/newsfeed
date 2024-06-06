@@ -14,7 +14,7 @@ const MainContent = styled.main`
   margin: 0 auto;
   width: 1090px;
   flex: 1;
-  margin-top: 70px;
+  margin-top: 100px;
 
   @media only screen and (max-width: 1068px) {
     width: 710px;

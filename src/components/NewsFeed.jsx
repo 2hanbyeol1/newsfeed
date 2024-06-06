@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import NewsCard from "./NewsCard";
 import { useEffect, useState } from "react";
-import supabase from "../supabase/supabase";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+import supabase from "../supabase/supabase";
+import NewsCard from "./NewsCard";
 
 const Wrapper = styled.div`
   display: grid;
@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   justify-items: center;
 
   a {
+    width: 100%;
     text-decoration: none;
     color: inherit;
   }
