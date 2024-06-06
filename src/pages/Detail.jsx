@@ -309,6 +309,13 @@ const Detail = () => {
   const [user, setUser] = useState(null);
   const descriptionTextareaRef = useRef(null);
 
+  // 마크다운에서 첫번째 이미지 주소를 가져온다
+  const getFirstImageURL = (markdown) => {
+    const regex = /!\[.*?\]\((.*?)\)/;
+    const match = regex.exec(markdown);
+    return match ? match[1] : null;
+  };
+
   /* Update */
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -318,7 +325,10 @@ const Detail = () => {
       return;
     }
 
-    const { error } = await supabase.from("posts").update(post).eq("id", postId);
+    const { error } = await supabase
+      .from("posts")
+      .update({ ...post, image_url: getFirstImageURL(post.description) })
+      .eq("id", postId);
     if (error) {
       console.error("Error updating post:", error.message);
     } else {

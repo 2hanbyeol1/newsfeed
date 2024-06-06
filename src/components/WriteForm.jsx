@@ -234,6 +234,13 @@ const WriteForm = () => {
     textarea.focus();
   };
 
+  // 마크다운에서 첫번째 이미지 주소를 가져온다
+  const getFirstImageURL = (markdown) => {
+    const regex = /!\[.*?\]\((.*?)\)/;
+    const match = regex.exec(markdown);
+    return match ? match[1] : null;
+  };
+
   /* Add */
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -250,7 +257,8 @@ const WriteForm = () => {
         description,
         created_by: user.id,
         created_at: createdAt,
-        tag
+        tag,
+        image_url: getFirstImageURL(description)
       }
     ]);
 

@@ -52,6 +52,7 @@ const Item = styled.div`
     width: 100%;
     height: 210px;
     border-radius: 4px;
+    object-fit: cover;
   }
 
   .title {
@@ -78,6 +79,10 @@ const Item = styled.div`
     -webkit-line-clamp: 2; /* 최대 줄 수 */
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
+
+    img {
+      display: none;
+    }
   }
 `;
 
