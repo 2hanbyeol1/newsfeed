@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import supabase from "../supabase/supabase";
+import { useNavigate } from "react-router-dom";
 
 const ProfileEditModal = ({ closeModal, user, profileUrl, setProfileUrl }) => {
   const [nickname, setNickname] = useState("");
   const [description, setDescription] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     setNickname(user.nickname);
     setDescription(user.introduce);
@@ -15,9 +16,7 @@ const ProfileEditModal = ({ closeModal, user, profileUrl, setProfileUrl }) => {
     const files = e.target.files;
     const [file] = files;
 
-    if (!file) {
-      return;
-    }
+    if (!file) return;
 
     const { data, error } = await supabase.storage.from("avatars").upload(`avatar_${Date.now()}.png`, file);
 
@@ -31,9 +30,10 @@ const ProfileEditModal = ({ closeModal, user, profileUrl, setProfileUrl }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (nickname === "") return alert("닉네임을 입력해주세요");
     const { error } = await supabase
       .from("Users")
-      .update({ nickname: nickname, profile_image: profileUrl, introduce: description })
+      .update({ nickname, profile_image: profileUrl, introduce: description })
       .eq("id", user.id);
 
     if (error) {
@@ -43,7 +43,7 @@ const ProfileEditModal = ({ closeModal, user, profileUrl, setProfileUrl }) => {
 
     alert("프로필 수정 완료!");
     closeModal();
-    location.reload();
+    navigate(0);
   };
 
   return (
