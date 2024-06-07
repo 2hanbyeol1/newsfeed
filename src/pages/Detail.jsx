@@ -150,6 +150,7 @@ const MarkdownPreview = styled.div`
   width: 100%;
   min-height: 400px;
   word-break: keep-all;
+  margin-bottom: 130px;
   h1,
   h2 {
     margin: 20px 0 10px;
