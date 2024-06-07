@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import NewsFeed from "../../components/NewsFeed";
+import NewsFeed from "../components/NewsFeed";
 
 const Container = styled.div`
   width: 100%;

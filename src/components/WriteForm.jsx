@@ -1,9 +1,9 @@
-import { useState, useRef } from "react";
-import styled from "styled-components";
+import { useRef, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import supabase from "../../supabase/supabase";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import supabase from "../supabase/supabase";
 
 /* Form All */
 const FormWrap = styled.form`
@@ -230,32 +230,35 @@ const WriteForm = () => {
       default:
         newText = description;
     }
-
     setDescription(newText);
-
     textarea.focus();
+  };
+
+  // 마크다운에서 첫번째 이미지 주소를 가져온다
+  const getFirstImageURL = (markdown) => {
+    const regex = /!\[.*?\]\((.*?)\)/;
+    const match = regex.exec(markdown);
+    return match ? match[1] : null;
   };
 
   /* Add */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title || !description || !tag) {
-      alert("제목, 내용 및 태그를 입력해주세요.");
-      return;
-    }
+    if (!title || !description || !tag) return alert("제목, 내용 및 태그를 입력해주세요.");
 
     const {
       data: { user }
     } = await supabase.auth.getUser();
 
-    const { data, error } = await supabase.from("posts").insert([
+    const { error } = await supabase.from("posts").insert([
       {
         title,
         description,
         created_by: user.id,
         created_at: createdAt,
-        tag
+        tag,
+        image_url: getFirstImageURL(description)
       }
     ]);
 
@@ -270,10 +273,9 @@ const WriteForm = () => {
   /* Leave */
   const handleLeaveClick = (e) => {
     e.preventDefault();
-    const confirmed = confirm("작성 중인 내용이 저장되지 않습니다. 정말 떠나시겠습니까?");
-    if (confirmed) {
-      navigate("/");
-    }
+    let confirmed = true;
+    if (title || tag || description) confirmed = confirm("작성 중인 내용이 저장되지 않습니다. 정말 떠나시겠습니까?");
+    if (confirmed) navigate("/");
   };
 
   return (

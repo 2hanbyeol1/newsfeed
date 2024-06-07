@@ -53,36 +53,31 @@ const ProfileEditModal = ({ closeModal, user, profileUrl, setProfileUrl }) => {
           <h2>프로필 수정</h2>
           <CloseButton onClick={closeModal}>&times;</CloseButton>
         </ModalHeader>
+        <FormImgGroup>
+          <ImageUpload>
+            <FileInput type="file" id="profile-image" name="profile-image" onChange={handleFileInputChange} />
+            {profileUrl && <ProfileImage src={profileUrl} alt="Profile" />}
+          </ImageUpload>
+        </FormImgGroup>
         <ProfileForm onSubmit={handleSubmit}>
-          <FormGroup>
-            <Label htmlFor="nickname">닉네임</Label>
-            <Input
-              type="text"
-              id="nickname"
-              name="nickname"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label className="description-label" htmlFor="description">
-              소개
-            </Label>
-            <Input
-              type="text"
-              id="description"
-              name="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </FormGroup>
-          <FormImgGroup>
-            <ImageUpload>
-              <FileInput type="file" id="profile-image" name="profile-image" onChange={handleFileInputChange} />
-              {profileUrl && <ProfileImage src={profileUrl} alt="Profile" />}
-            </ImageUpload>
-            <ImgButton htmlFor="profile-image">이미지 변경하기</ImgButton>
-          </FormImgGroup>
+          <Label htmlFor="nickname">닉네임</Label>
+          <Input
+            type="text"
+            id="nickname"
+            name="nickname"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+          />
+          <Label className="description-label" htmlFor="description">
+            소개
+          </Label>
+          <Input
+            type="text"
+            id="description"
+            name="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
           <ButtonContainer>
             <SubmitButton type="submit">프로필 수정 완료</SubmitButton>
           </ButtonContainer>
@@ -104,100 +99,64 @@ const ModalOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 20;
 `;
 
 const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   background: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 500px;
+  max-width: 350px;
+  gap: 15px;
 `;
 
 const ModalHeader = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  position: relative;
 
   h2 {
-    margin: 0;
     font-weight: bold;
+    font-size: 20px;
   }
 `;
 
 const CloseButton = styled.button`
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 30px;
   cursor: pointer;
-  color: #3abef9;
+  position: absolute;
+  right: 0px;
 `;
 
 const ProfileForm = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const FormGroup = styled.div`
-  display: flex;
-  margin-bottom: 15px;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 60px 1fr;
   align-items: center;
-
-  label:first-child {
-    padding-right: 0px;
-  }
-
-  label.description-label {
-    padding-right: 15px;
-  }
+  width: 85%;
+  gap: 5px 0;
+  margin: 0 auto;
 `;
+
+const Label = styled.label``;
 
 const FormImgGroup = styled.div`
   display: flex;
-  margin-bottom: 15px;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
 `;
 
-const Label = styled.label`
-  margin-bottom: 5px;
-`;
-
-const ImgButton = styled.label`
-  margin-top: 30px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  background: #3abef9;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  text-align: center;
-
-  &:hover {
-    background: #0aa4eb;
-  }
-`;
-
-const Input = styled.input`
-  width: calc(100% - 90px);
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-`;
-
-const ImageUpload = styled.div`
+const ImageUpload = styled.label`
   display: flex;
   align-items: center;
-`;
-
-const FileInput = styled.input`
-  display: none;
 `;
 
 const ProfileImage = styled.img`
@@ -205,23 +164,42 @@ const ProfileImage = styled.img`
   height: 100px;
   border-radius: 50%;
   cursor: pointer;
+  object-fit: cover;
 `;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+`;
+
+const FileInput = styled.input`
+  display: none;
+`;
+
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  grid-column: span 2;
+  margin-top: 3px;
 `;
 
 const SubmitButton = styled.button`
-  width: 150px;
-  padding: 10px;
-  background: #3abef9;
-  color: #fff;
+  width: 100%;
+  background-color: #69cffd;
+  color: white;
   border: none;
+  padding: 7px 20px;
   border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
 
   &:hover {
-    background: #0aa4eb;
+    background-color: #39c0ff;
+    transition: background-color 0.3s ease-in-out 0s;
   }
 `;

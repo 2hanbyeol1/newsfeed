@@ -7,7 +7,7 @@ import Detail from "./pages/Detail";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
-import SignUp from "./pages/SignUp/SignUp";
+import SignUp from "./pages/SignUp";
 import Write from "./pages/Write";
 
 function App() {

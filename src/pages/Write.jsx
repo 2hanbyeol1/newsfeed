@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import WriteForm from "../components/write/WriteForm";
+import WriteForm from "../components/WriteForm";
 
 const WriteWrap = styled.div`
   margin-top: 20px;

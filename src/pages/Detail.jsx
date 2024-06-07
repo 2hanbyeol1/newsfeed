@@ -1,10 +1,10 @@
-import { useEffect, useState, useRef } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
+import ReactMarkdown from "react-markdown";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import supabase from "../supabase/supabase";
-import { FaArrowLeft } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import ReactMarkdown from "react-markdown";
 
 /* Form All*/
 const FormWrap = styled.form`
@@ -150,6 +150,7 @@ const MarkdownPreview = styled.div`
   width: 100%;
   min-height: 400px;
   word-break: keep-all;
+  margin-bottom: 130px;
   h1,
   h2 {
     margin: 20px 0 10px;
@@ -179,6 +180,12 @@ const MarkdownPreview = styled.div`
     margin: 10px 0;
     font-size: 14px;
     line-height: 1.6;
+  }
+  img {
+    width: 25%;
+    min-width: 170px;
+    display: block;
+    margin: 15px auto;
   }
   ul,
   ol {
@@ -303,6 +310,13 @@ const Detail = () => {
   const [user, setUser] = useState(null);
   const descriptionTextareaRef = useRef(null);
 
+  // 마크다운에서 첫번째 이미지 주소를 가져온다
+  const getFirstImageURL = (markdown) => {
+    const regex = /!\[.*?\]\((.*?)\)/;
+    const match = regex.exec(markdown);
+    return match ? match[1] : null;
+  };
+
   /* Update */
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -312,7 +326,10 @@ const Detail = () => {
       return;
     }
 
-    const { error } = await supabase.from("posts").update(post).eq("id", postId);
+    const { error } = await supabase
+      .from("posts")
+      .update({ ...post, image_url: getFirstImageURL(post.description) })
+      .eq("id", postId);
     if (error) {
       console.error("Error updating post:", error.message);
     } else {
