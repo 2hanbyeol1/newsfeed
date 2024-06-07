@@ -61,6 +61,14 @@ const StPost = styled.div`
   }
 
   .markdown-content {
+    height: 140px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    text-overflow: ellipsis;
+    white-space: normal;
+
     img {
       display: none;
     }
