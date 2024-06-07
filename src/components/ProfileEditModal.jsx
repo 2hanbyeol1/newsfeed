@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import supabase from "../supabase/supabase";
+import { useNavigate } from "react-router-dom";
 
 const ProfileEditModal = ({ closeModal, user, profileUrl, setProfileUrl }) => {
   const [nickname, setNickname] = useState("");
   const [description, setDescription] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     setNickname(user.nickname);
     setDescription(user.introduce);
@@ -42,7 +43,7 @@ const ProfileEditModal = ({ closeModal, user, profileUrl, setProfileUrl }) => {
 
     alert("프로필 수정 완료!");
     closeModal();
-    location.reload();
+    navigate(0);
   };
 
   return (
