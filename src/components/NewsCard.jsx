@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import styled from "styled-components";
 import default_Img from "../assets/noImg.png";
+import defaultProfileImg from "../assets/user256.png";
 import supabase from "../supabase/supabase";
 
 const Container = styled.div`
@@ -101,15 +102,23 @@ const NewsCard = ({ image_url, title, description, created_by }) => {
     e.target.src = default_Img;
   };
 
+  const onErrorProfileImg = (e) => {
+    e.target.src = defaultProfileImg;
+  };
   return (
     <Container>
       <Item>
         <div className="card-header">
-          <img className="profile" src={user?.profile_image} />
+          <img
+            className="profile"
+            src={user?.profile_image || defaultProfileImg}
+            onError={onErrorProfileImg}
+            alt="프로필 이미지"
+          />
           <div className="writer">{user?.nickname}</div>
         </div>
         <div className="card-content">
-          <img className="content-img" src={image_url || default_Img} onError={onErrorImg} alt="이미지" />
+          <img className="content-img" src={image_url || default_Img} onError={onErrorImg} alt="컨텐츠 이미지" />
           <div className="title">{title}</div>
           <div className="content">
             <ReactMarkdown className="markdown-content">{description}</ReactMarkdown>
